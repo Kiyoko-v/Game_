@@ -54,6 +54,8 @@ window.ReefUI = (function() {
       eventModalContent: document.getElementById('event-modal-content'),
       reefdexModal: document.getElementById('reefdex-modal'),
       guideModal: document.getElementById('guide-modal'),
+      cloudModal: document.getElementById('cloud-modal'),
+      leaderboardModal: document.getElementById('leaderboard-modal'),
 
       // Controls
       btnPause: document.getElementById('btn-pause'),
@@ -63,6 +65,20 @@ window.ReefUI = (function() {
       btnAudio: document.getElementById('btn-audio'),
       btnReefdex: document.getElementById('btn-reefdex'),
       btnGuide: document.getElementById('btn-guide'),
+      btnCloud: document.getElementById('btn-cloud'),
+      btnLeaderboard: document.getElementById('btn-leaderboard'),
+
+      // Cloud HUD & Modal components
+      cloudStatusDot: document.getElementById('cloud-status-dot'),
+      cloudBtnText: document.getElementById('cloud-btn-text'),
+      guardianNameInput: document.getElementById('guardian-name-input'),
+      btnSaveCallsign: document.getElementById('btn-save-callsign'),
+      cloudConnectionBadge: document.getElementById('cloud-connection-badge'),
+      cloudLastSyncText: document.getElementById('cloud-last-sync-text'),
+      btnManualCloudSave: document.getElementById('btn-manual-cloud-save'),
+      btnManualCloudLoad: document.getElementById('btn-manual-cloud-load'),
+      btnRefreshLeaderboard: document.getElementById('btn-refresh-leaderboard'),
+      leaderboardList: document.getElementById('leaderboard-list'),
 
       // Toast container
       toastContainer: document.getElementById('toast-container')
@@ -105,6 +121,55 @@ window.ReefUI = (function() {
     // Modal Triggers
     if (dom.btnReefdex) dom.btnReefdex.addEventListener('click', openReefdex);
     if (dom.btnGuide) dom.btnGuide.addEventListener('click', () => openModal(dom.guideModal));
+    if (dom.btnCloud) dom.btnCloud.addEventListener('click', openCloudModal);
+    if (dom.btnLeaderboard) dom.btnLeaderboard.addEventListener('click', openLeaderboardModal);
+    if (dom.btnRefreshLeaderboard) dom.btnRefreshLeaderboard.addEventListener('click', renderLeaderboard);
+
+    // Callsign name save
+    if (dom.btnSaveCallsign && dom.guardianNameInput) {
+      dom.btnSaveCallsign.addEventListener('click', async () => {
+        const nameVal = dom.guardianNameInput.value.trim();
+        if (!nameVal) return;
+        if (window.ReefFirebase && window.ReefFirebase.setGuardianName) {
+          await window.ReefFirebase.setGuardianName(nameVal);
+          showToast(`🛡️ Callsign updated to "${nameVal}"!`, 'success');
+        }
+      });
+    }
+
+    // Manual Cloud Save
+    if (dom.btnManualCloudSave) {
+      dom.btnManualCloudSave.addEventListener('click', () => {
+        if (window.saveSanctuary) {
+          window.saveSanctuary(true);
+        }
+      });
+    }
+
+    // Manual Cloud Load
+    if (dom.btnManualCloudLoad) {
+      dom.btnManualCloudLoad.addEventListener('click', async () => {
+        if (window.ReefFirebase && window.ReefFirebase.loadFromCloud) {
+          showToast('☁️ Fetching remote cloud save...', 'info', 2000);
+          const data = await window.ReefFirebase.loadFromCloud();
+          if (data) {
+            window.ReefFirebase.applyCloudDataToGame(data);
+            showToast('☁️ Sanctuary cloud save restored successfully!', 'success');
+          } else {
+            showToast('⚠️ No cloud save found or network unavailable.', 'warning');
+          }
+        }
+      });
+    }
+
+    // Subscribe to Firebase status changes
+    const setupFirebaseStatus = () => {
+      if (window.ReefFirebase && window.ReefFirebase.onSyncStatusChange) {
+        window.ReefFirebase.onSyncStatusChange(updateCloudStatusUI);
+      }
+    };
+    setupFirebaseStatus();
+    setTimeout(setupFirebaseStatus, 600);
 
     // Modal Close buttons
     document.querySelectorAll('.modal-close-btn').forEach(btn => {
@@ -539,6 +604,116 @@ window.ReefUI = (function() {
     }, duration);
   }
 
+  // Firebase Cloud Modal Logic
+  function openCloudModal() {
+    if (window.ReefFirebase) {
+      if (dom.guardianNameInput) {
+        dom.guardianNameInput.value = window.ReefFirebase.getGuardianName();
+      }
+      updateCloudStatusUI(window.ReefFirebase.syncStatus, window.ReefFirebase.lastSyncTime);
+    }
+    openModal(dom.cloudModal);
+  }
+
+  function updateCloudStatusUI(status, lastSync) {
+    if (!dom.cloudStatusDot) return;
+
+    dom.cloudStatusDot.className = 'cloud-status-dot';
+    if (status === 'saving') {
+      dom.cloudStatusDot.classList.add('saving');
+      if (dom.cloudBtnText) dom.cloudBtnText.textContent = '⏳ Saving...';
+    } else if (status === 'offline' || status === 'error') {
+      dom.cloudStatusDot.classList.add('offline');
+      if (dom.cloudBtnText) dom.cloudBtnText.textContent = '☁️ Offline';
+    } else {
+      // online or synced
+      if (dom.cloudBtnText) dom.cloudBtnText.textContent = '☁️ Cloud';
+    }
+
+    if (dom.cloudConnectionBadge) {
+      if (status === 'offline') {
+        dom.cloudConnectionBadge.className = 'cloud-status-chip offline';
+        dom.cloudConnectionBadge.textContent = '⚠️ Offline / Local Mode';
+      } else {
+        dom.cloudConnectionBadge.className = 'cloud-status-chip online';
+        dom.cloudConnectionBadge.textContent = status === 'saving' ? '🔄 Syncing...' : '🟢 Connected';
+      }
+    }
+
+    if (dom.cloudLastSyncText) {
+      if (lastSync) {
+        const timeStr = new Date(lastSync).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        dom.cloudLastSyncText.textContent = `Last Synced: ${timeStr}`;
+      } else {
+        dom.cloudLastSyncText.textContent = 'Last Synced: Pending initial save';
+      }
+    }
+  }
+
+  // Leaderboard Modal Logic
+  async function openLeaderboardModal() {
+    openModal(dom.leaderboardModal);
+    await renderLeaderboard();
+  }
+
+  async function renderLeaderboard() {
+    if (!dom.leaderboardList) return;
+    dom.leaderboardList.innerHTML = `
+      <div style="padding: 24px; text-align: center; color: var(--accent-cyan); font-family: var(--font-heading);">
+        🌊 Fetching conservation rankings from Cloud Firestore...
+      </div>
+    `;
+
+    try {
+      let entries = [];
+      if (window.ReefFirebase && window.ReefFirebase.fetchLeaderboard) {
+        entries = await window.ReefFirebase.fetchLeaderboard(15);
+      }
+
+      if (!entries || entries.length === 0) {
+        dom.leaderboardList.innerHTML = `
+          <div style="padding: 24px; text-align: center; color: #90a4ae;">
+            No public entries yet. Be the first to synchronize your sanctuary!
+          </div>
+        `;
+        return;
+      }
+
+      const currentUid = window.ReefFirebase && window.ReefFirebase.currentUser ? window.ReefFirebase.currentUser.uid : null;
+
+      let html = '';
+      entries.forEach((item, index) => {
+        const rank = index + 1;
+        let rankClass = '';
+        let rankBadge = `#${rank}`;
+        if (rank === 1) { rankClass = 'rank-top1'; rankBadge = '🥇 #1'; }
+        else if (rank === 2) { rankClass = 'rank-top2'; rankBadge = '🥈 #2'; }
+        else if (rank === 3) { rankClass = 'rank-top3'; rankBadge = '🥉 #3'; }
+
+        const isMe = currentUid && item.uid === currentUid;
+
+        html += `
+          <div class="leaderboard-row ${isMe ? 'current-user' : ''}">
+            <span class="lb-col rank ${rankClass}">${rankBadge}</span>
+            <span class="lb-col name">${item.guardianName || 'Reef Guardian'} ${isMe ? '<small style="color:var(--accent-cyan); font-size:10px;">(YOU)</small>' : ''}</span>
+            <span class="lb-col bio">${item.biodiversity || 0}%</span>
+            <span class="lb-col days">${item.daysSurvived || 0}d</span>
+            <span class="lb-col species">${item.speciesUnlocked || 0} / 16</span>
+            <span class="lb-col coral">${item.coralCover || 0}%</span>
+          </div>
+        `;
+      });
+      dom.leaderboardList.innerHTML = html;
+    } catch (e) {
+      console.warn('Could not render leaderboard:', e);
+      dom.leaderboardList.innerHTML = `
+        <div style="padding: 20px; text-align: center; color: #ff5252;">
+          Unable to retrieve online rankings. Please check internet connection.
+        </div>
+      `;
+    }
+  }
+
   function openModal(modal) {
     if (modal) {
       modal.classList.add('visible');
@@ -557,6 +732,9 @@ window.ReefUI = (function() {
     showEventModal: showEventModal,
     showUnlockModal: showUnlockModal,
     showDistressAlert: showDistressAlert,
-    showToast: showToast
+    showToast: showToast,
+    openCloudModal: openCloudModal,
+    openLeaderboardModal: openLeaderboardModal,
+    updateCloudStatusUI: updateCloudStatusUI
   };
 })();

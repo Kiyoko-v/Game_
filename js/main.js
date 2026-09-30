@@ -148,8 +148,8 @@
     });
   }
 
-  // Save Sanctuary to localStorage
-  function saveSanctuary() {
+  // Save Sanctuary to localStorage & Firebase Cloud
+  function saveSanctuary(manual = false) {
     try {
       const data = {
         resources: window.ReefSim.resources,
@@ -163,6 +163,19 @@
         }))
       };
       localStorage.setItem('reef_guardian_save_v1', JSON.stringify(data));
+
+      // Cloud Synchronization with Firebase
+      if (window.ReefFirebase && window.ReefFirebase.saveToCloud) {
+        window.ReefFirebase.saveToCloud(data).then(result => {
+          if (manual && window.ReefUI && window.ReefUI.showToast) {
+            if (result && result.success) {
+              window.ReefUI.showToast('☁️ Sanctuary state synced to Firebase Cloud!', 'success');
+            } else {
+              window.ReefUI.showToast('💾 Saved locally (Cloud offline or synchronizing).', 'info');
+            }
+          }
+        });
+      }
     } catch (e) {
       console.warn('Could not save game state:', e);
     }
@@ -197,7 +210,8 @@
     }
   }
 
-  // Expose reset option
+  // Expose global actions
+  window.saveSanctuary = saveSanctuary;
   window.resetSanctuaryProgress = function() {
     localStorage.removeItem('reef_guardian_save_v1');
     location.reload();

@@ -14,6 +14,18 @@
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/reef.css">
+
+  <!-- Firebase SDK Import Map for native ESM browser imports -->
+  <script type="importmap">
+  {
+    "imports": {
+      "firebase/app": "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js",
+      "firebase/firestore": "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js",
+      "firebase/analytics": "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -133,6 +145,11 @@
         <button class="hud-btn" id="btn-zen" title="Toggle Peaceful Zen Sanctuary Mode">Zen Mode</button>
         <button class="hud-btn" id="btn-audio" title="Toggle Procedural Ocean Soundscape [M]">Audio: On</button>
         <button class="hud-btn" id="btn-reefdex" title="Open Marine Encyclopedia [R]">Field Catalog</button>
+        <button class="hud-btn" id="btn-leaderboard" title="View Global Conservation Leaderboard">🏆 Ranks</button>
+        <button class="hud-btn cloud-status-badge" id="btn-cloud" title="Firebase Cloud Sync & Guardian Profile">
+          <span class="cloud-status-dot" id="cloud-status-dot"></span>
+          <span id="cloud-btn-text">☁️ Cloud</span>
+        </button>
         <button class="hud-btn" id="btn-guide" title="How to Play & Ocean Guide">Guide</button>
       </div>
     </header>
@@ -306,8 +323,98 @@
     </div>
   </div>
 
+  <!-- 5. Firebase Cloud Save & Guardian Identity Modal -->
+  <div class="modal-backdrop" id="cloud-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll">
+        <h2 class="modal-title">☁️ Firebase Cloud & Guardian Identity</h2>
+        <p class="modal-subtitle">Real-time cloud ecosystem synchronization powered by Google Firebase Firestore.</p>
+
+        <div class="cloud-profile-card">
+          <div class="cloud-avatar-badge">🛡️</div>
+          <div class="cloud-info-box">
+            <label class="cloud-field-label">Guardian Call-Sign:</label>
+            <div class="cloud-input-group">
+              <input type="text" id="guardian-name-input" class="cloud-input" maxlength="24" placeholder="Enter Call-Sign (e.g. Captain Coral)...">
+              <button id="btn-save-callsign" class="cloud-action-btn primary">Save Name</button>
+            </div>
+            <div class="cloud-meta-row">
+              <span id="cloud-connection-badge" class="cloud-status-chip online">🟢 Connecting...</span>
+              <span id="cloud-last-sync-text" class="cloud-sync-time">Last Synced: Checking...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cloud-actions-grid">
+          <div class="cloud-action-card">
+            <h4>💾 Cloud Sync</h4>
+            <p>Save active ecosystem vitals, unlocked species roster, and eco-funds directly to Cloud Firestore.</p>
+            <button id="btn-manual-cloud-save" class="cloud-action-btn primary">
+              <span>☁️ Sync to Cloud Now</span>
+            </button>
+          </div>
+
+          <div class="cloud-action-card">
+            <h4>📥 Cloud Restore</h4>
+            <p>Load the latest cloud save associated with this Guardian profile to this browser.</p>
+            <button id="btn-manual-cloud-load" class="cloud-action-btn secondary">
+              <span>📥 Restore from Cloud</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cloud-telemetry-box">
+          <div class="cloud-telemetry-item">
+            <span class="label">Firebase Project:</span>
+            <strong class="val">game-13145</strong>
+          </div>
+          <div class="cloud-telemetry-item">
+            <span class="label">Database:</span>
+            <strong class="val">Cloud Firestore</strong>
+          </div>
+          <div class="cloud-telemetry-item">
+            <span class="label">Auth Mode:</span>
+            <strong class="val" id="cloud-auth-mode">Anonymous / UID</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Global Conservation Leaderboard Modal -->
+  <div class="modal-backdrop" id="leaderboard-modal">
+    <div class="modal-dialog modal-dialog-large">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h2 class="modal-title" style="margin: 0;">🏆 Global Conservation Leaderboard</h2>
+          <button id="btn-refresh-leaderboard" class="hud-btn" style="font-size: 11px; padding: 4px 10px;">🔄 Refresh</button>
+        </div>
+        <p class="modal-subtitle" style="margin-bottom: 16px;">Top Reef Guardians worldwide preserving coral biodiversity in Firebase Firestore.</p>
+        
+        <div class="leaderboard-container">
+          <div class="leaderboard-header-row">
+            <span class="lb-col rank">RANK</span>
+            <span class="lb-col name">GUARDIAN</span>
+            <span class="lb-col bio">BIODIVERSITY</span>
+            <span class="lb-col days">DAYS SURVIVED</span>
+            <span class="lb-col species">SPECIES</span>
+            <span class="lb-col coral">CORAL COVER</span>
+          </div>
+          <div class="leaderboard-list" id="leaderboard-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Container -->
   <div id="toast-container"></div>
+
+  <!-- Firebase SDK and Service Integration -->
+  <script type="module" src="js/firebase.js"></script>
 
   <!-- Scripts in dependency order -->
   <script src="js/data/speciesData.js"></script>

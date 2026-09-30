@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Leaderboard entries: anyone can read, anyone can submit high scores
+    match /leaderboard/{docId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // User Sanctuary Cloud Saves
+    match /users/{userId}/{document=**} {
+      allow read, write: if true;
+    }
+
+    // Global Ocean Stats (total plastic cleaned, corals restored)
+    match /global/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
