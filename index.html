@@ -1,2581 +1,322 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Приключение в Горах! | Petualangan Salju Belajar Bahasa Rusia</title>
-  <meta name="description" content="Belajar Bahasa Rusia seru dengan tema Pegunungan Bersalju putih bersih, beruang Misha bertopi Ushanka, 33 huruf Cyrillic lengkap, kosakata bergambar, susun kalimat, kuis interaktif dan audio native!">
-  
-  <!-- Google Fonts: Fredoka & Montserrat -->
+  <title>Reef Guardian | Ocean Ecosystem & Coral Reef Sanctuary</title>
+  <meta name="description" content="Save endangered coral reefs, protect delicate marine species, counteract warming oceans and plastic pollution, and explore fascinating marine biology fun facts.">
+  <meta name="theme-color" content="#010b18">
+
+  <!-- Google Fonts: Space Grotesk, Montserrat, and Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --snow-bg: #eef5fa;
-      --snow-pure: #ffffff;
-      --snow-soft: #f8fbfe;
-      --ice-light: #e3f2fd;
-      --ice-border: #cee3f5;
-      --ice-accent: #0284c7;
-      --ice-deep: #0369a1;
-      
-      --ru-red: #d90429;
-      --ru-red-hover: #b80422;
-      --ru-gold: #ffb703;
-      --ru-amber: #f77f00;
-      
-      --text-dark: #122338;
-      --text-main: #1e3a5f;
-      --text-muted: #5c7692;
-      
-      --shadow-soft: 0 10px 28px rgba(18, 48, 80, 0.08), 0 2px 6px rgba(18, 48, 80, 0.04);
-      --shadow-hover: 0 18px 36px rgba(18, 48, 80, 0.14), 0 4px 10px rgba(18, 48, 80, 0.06);
-      --radius-fun: 22px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    body {
-      background-color: var(--snow-bg);
-      color: var(--text-dark);
-      font-family: 'Fredoka', 'Montserrat', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* ========================================================
-       PANORAMIC SNOWY MOUNTAIN BACKGROUND
-       ======================================================== */
-    .mountain-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 1;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    /* Soft alpine sky gradient */
-    .mountain-backdrop::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 480px;
-      background: linear-gradient(180deg, #d4e8fa 0%, #e9f3fc 60%, rgba(240, 247, 253, 0) 100%);
-    }
-
-    .mountains-svg {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 380px;
-      opacity: 0.85;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #eef5fa;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #bcd9f2;
-      border-radius: 10px;
-      border: 2px solid #fff;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--ru-red);
-    }
-
-    /* ========================================================
-       TOP HEADER (Crisp Alpine White)
-       ======================================================== */
-    header {
-      background: rgba(255, 255, 255, 0.92);
-      border-bottom: 2px solid var(--ice-border);
-      backdrop-filter: blur(14px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 0.8rem 2rem;
-      box-shadow: 0 4px 20px rgba(18, 48, 80, 0.06);
-    }
-
-    .header-container {
-      max-width: 1300px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .brand-crest {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #d90429 0%, #ef233c 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      color: #fff;
-      box-shadow: 0 6px 14px rgba(217, 4, 41, 0.28);
-      transform: rotate(-3deg);
-    }
-
-    .brand-titles h1 {
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      letter-spacing: -0.3px;
-      line-height: 1.1;
-    }
-
-    .brand-titles h1 span {
-      color: var(--ru-red);
-    }
-
-    .brand-titles p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    /* Player Stats / Game HUD */
-    .game-hud {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .hud-chip {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: 50px;
-      padding: 0.4rem 1rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 2px 8px rgba(18, 48, 80, 0.05);
-    }
-
-    .hud-chip span.val {
-      color: var(--ru-red);
-    }
-
-    .hud-btn {
-      background: linear-gradient(180deg, #d90429 0%, #ba0322 100%);
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      padding: 0.45rem 1.1rem;
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 14px rgba(217, 4, 41, 0.3);
-      transition: all 0.2s;
-    }
-
-    .hud-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(217, 4, 41, 0.45);
-    }
-
-    /* Navigation Tabs */
-    .nav-tabs {
-      max-width: 1300px;
-      margin: 1.5rem auto 0;
-      padding: 0 1.2rem;
-      display: flex;
-      gap: 0.6rem;
-      overflow-x: auto;
-      scrollbar-width: none;
-      position: relative;
-      z-index: 20;
-    }
-
-    .nav-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    .tab-btn {
-      background: rgba(255, 255, 255, 0.75);
-      border: 2px solid var(--ice-border);
-      border-bottom: none;
-      color: var(--text-muted);
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      padding: 0.85rem 1.6rem;
-      border-radius: 18px 18px 0 0;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      position: relative;
-      white-space: nowrap;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
-    }
-
-    .tab-btn:hover {
-      background: #ffffff;
-      color: var(--ru-red);
-      transform: translateY(-2px);
-    }
-
-    .tab-btn.active {
-      background: #ffffff;
-      color: var(--ru-red);
-      border-color: var(--ru-red);
-      box-shadow: 0 -4px 16px rgba(217, 4, 41, 0.12);
-    }
-
-    .tab-btn.active::after {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--ru-red);
-      border-radius: 4px 4px 0 0;
-    }
-
-    /* Main Container */
-    main {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 1.2rem;
-      position: relative;
-      z-index: 20;
-    }
-
-    .tab-pane {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .tab-pane.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ========================================================
-       HERO STAGE: SNOWY MOUNTAIN LODGE & MISHA IN USHANKA
-       ======================================================== */
-    .hero-stage {
-      background: linear-gradient(135deg, #ffffff 0%, #f4f9fd 100%);
-      border: 2px solid var(--ice-border);
-      border-radius: var(--radius-fun);
-      padding: 2.2rem 2.5rem;
-      margin-bottom: 2rem;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-stage::before {
-      content: '🏔️';
-      position: absolute;
-      right: -20px;
-      top: -25px;
-      font-size: 10rem;
-      opacity: 0.08;
-      pointer-events: none;
-    }
-
-    .hero-info {
-      flex: 1;
-      max-width: 720px;
-    }
-
-    .badge-mountain {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #e0f2fe;
-      color: #0369a1;
-      border: 1px solid #bae6fd;
-      padding: 0.35rem 0.9rem;
-      border-radius: 30px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-      text-transform: uppercase;
-    }
-
-    .hero-title {
-      font-size: 2.3rem;
-      font-weight: 800;
-      line-height: 1.2;
-      color: var(--text-dark);
-      margin-bottom: 0.6rem;
-    }
-
-    .hero-title span {
-      color: var(--ru-red);
-    }
-
-    .hero-desc {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-red {
-      background: linear-gradient(180deg, #d90429 0%, #b80422 100%);
-      color: #fff;
-      border: none;
-      padding: 0.8rem 1.8rem;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: 50px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 6px 18px rgba(217, 4, 41, 0.28);
-      transition: all 0.2s;
-    }
-
-    .btn-red:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(217, 4, 41, 0.4);
-    }
-
-    .btn-outline-ice {
-      background: #ffffff;
-      color: var(--text-dark);
-      border: 2px solid var(--ice-border);
-      padding: 0.8rem 1.6rem;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: 50px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s;
-    }
-
-    .btn-outline-ice:hover {
-      border-color: var(--ru-red);
-      color: var(--ru-red);
-      transform: translateY(-2px);
-    }
-
-    /* Misha Bear Mascot */
-    .misha-mascot-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .misha-speech {
-      background: #ffffff;
-      color: var(--text-dark);
-      padding: 0.6rem 1.1rem;
-      border-radius: 16px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      margin-bottom: 10px;
-      position: relative;
-      box-shadow: var(--shadow-soft);
-      border: 2px solid var(--ru-red);
-      max-width: 230px;
-      text-align: center;
-      animation: floatMsg 3s infinite ease-in-out;
-    }
-
-    .misha-speech::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 10px 10px 0 10px;
-      border-style: solid;
-      border-color: var(--ru-red) transparent transparent transparent;
-    }
-
-    @keyframes floatMsg {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-4px); }
-    }
-
-    .misha-svg-wrap {
-      width: 170px;
-      height: 190px;
-      filter: drop-shadow(0 10px 16px rgba(18, 48, 80, 0.12));
-      transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .misha-svg-wrap:hover {
-      transform: scale(1.06) rotate(2deg);
-    }
-
-    .misha-svg-wrap.dancing {
-      animation: mishaHop 0.5s ease infinite alternate;
-    }
-
-    @keyframes mishaHop {
-      0% { transform: translateY(0) rotate(-4deg); }
-      100% { transform: translateY(-10px) rotate(4deg); }
-    }
-
-    /* Controls & Filter Bar */
-    .controls-panel {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: 50px;
-      padding: 0.6rem 1.4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 1.8rem;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .pills-wrap {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .pill-btn {
-      background: var(--snow-soft);
-      border: 1.5px solid var(--ice-border);
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      font-weight: 700;
-      padding: 0.45rem 1.15rem;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .pill-btn:hover {
-      border-color: var(--ru-red);
-      color: var(--ru-red);
-    }
-
-    .pill-btn.active {
-      background: var(--ru-red);
-      color: #ffffff;
-      border-color: var(--ru-red);
-      box-shadow: 0 4px 12px rgba(217, 4, 41, 0.25);
-    }
-
-    .search-box {
-      background: var(--snow-soft);
-      border: 1.5px solid var(--ice-border);
-      border-radius: 30px;
-      padding: 0.5rem 1.2rem;
-      color: var(--text-dark);
-      font-size: 0.95rem;
-      font-family: inherit;
-      outline: none;
-      width: 250px;
-      transition: all 0.3s;
-    }
-
-    .search-box:focus {
-      border-color: var(--ru-red);
-      background: #ffffff;
-      box-shadow: 0 0 12px rgba(217, 4, 41, 0.15);
-      width: 290px;
-    }
-
-    /* ========================================================
-       MODULE 1: ALPHABET CARDS (Clean White & High Contrast)
-       ======================================================== */
-    .alphabet-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
-      gap: 1.3rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .letter-card {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: var(--radius-fun);
-      padding: 1.4rem 1rem 1.1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      cursor: pointer;
-      box-shadow: var(--shadow-soft);
-      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .letter-card:hover {
-      border-color: var(--ru-red);
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .letter-tag {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 0.72rem;
-      padding: 3px 8px;
-      border-radius: 20px;
-      font-weight: 800;
-      text-transform: uppercase;
-    }
-    .tag-vowel { background: #fee2e2; color: #dc2626; }
-    .tag-consonant { background: #e0f2fe; color: #0284c7; }
-    .tag-sign { background: #fef3c7; color: #d97706; }
-
-    .cyrillic-char {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 3.2rem;
-      font-weight: 900;
-      color: var(--text-dark);
-      line-height: 1;
-      margin: 0.4rem 0 0.2rem;
-    }
-
-    .letter-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--ru-red);
-      margin-bottom: 0.2rem;
-    }
-
-    .letter-approx {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 0.8rem;
-      min-height: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 500;
-    }
-
-    .sample-box {
-      width: 100%;
-      background: var(--snow-soft);
-      border: 1px solid var(--ice-border);
-      border-radius: 12px;
-      padding: 0.5rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .sample-ru {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: var(--text-dark);
-    }
-
-    .sample-en {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .speaker-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, #ffffff 0%, #f0f7fc 100%);
-      border: 2px solid var(--ice-border);
-      color: var(--ru-red);
-      font-size: 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(18, 48, 80, 0.08);
-      transition: all 0.2s;
-    }
-
-    .speaker-btn:hover {
-      background: var(--ru-red);
-      color: #ffffff;
-      border-color: var(--ru-red);
-      transform: scale(1.1);
-      box-shadow: 0 6px 14px rgba(217, 4, 41, 0.3);
-    }
-
-    /* False Friends Box */
-    .alert-mountain {
-      background: #ffffff;
-      border: 2px solid #bae6fd;
-      border-left: 6px solid var(--ru-red);
-      border-radius: var(--radius-fun);
-      padding: 1.4rem 1.8rem;
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-      gap: 1.4rem;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .alert-icon {
-      font-size: 2.8rem;
-    }
-
-    .alert-mountain h4 {
-      color: var(--ru-red);
-      font-size: 1.2rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .alert-mountain p {
-      color: var(--text-main);
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    /* ========================================================
-       MODULE 2: VOCABULARY CARDS (White Theme)
-       ======================================================== */
-    .vocab-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.4rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .vocab-card {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: var(--radius-fun);
-      padding: 1.5rem;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: all 0.25s ease;
-    }
-
-    .vocab-card:hover {
-      border-color: var(--ru-red);
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .vocab-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.5rem;
-    }
-
-    .vocab-ru-word {
-      font-size: 1.7rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      line-height: 1.2;
-    }
-
-    .vocab-phonetics {
-      color: var(--ru-red);
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .vocab-en-badge {
-      background: var(--ice-light);
-      border: 1px solid var(--ice-border);
-      padding: 0.4rem 0.9rem;
-      border-radius: 12px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .vocab-ex-box {
-      background: var(--snow-soft);
-      border-left: 4px solid var(--ru-red);
-      border-radius: 8px;
-      padding: 0.75rem 0.95rem;
-    }
-
-    .ex-ru {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .ex-en {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-
-    /* ========================================================
-       MODULE 3: GRAMMAR & SENTENCE BUILDER
-       ======================================================== */
-    .grammar-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    @media (max-width: 850px) {
-      .grammar-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .grammar-box {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: var(--radius-fun);
-      padding: 1.8rem;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .grammar-box h3 {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: var(--ru-red);
-      margin-bottom: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .rule-block {
-      margin-bottom: 1.2rem;
-    }
-
-    .rule-block h5 {
-      font-size: 1.05rem;
-      color: var(--text-dark);
-      margin-bottom: 0.3rem;
-    }
-
-    .rule-block p {
-      font-size: 0.92rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .pill-example {
-      background: var(--snow-soft);
-      border: 1px dashed var(--ice-border);
-      border-left: 3px solid var(--ice-accent);
-      border-radius: 10px;
-      padding: 0.6rem 0.9rem;
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--text-dark);
-    }
-
-    /* Interactive Sentence Constructor */
-    .constructor-station {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: var(--radius-fun);
-      padding: 2.2rem 2rem;
-      text-align: center;
-      box-shadow: var(--shadow-soft);
-      margin-bottom: 2.5rem;
-    }
-
-    .station-title {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 0.4rem;
-    }
-
-    .station-title span {
-      color: var(--ru-red);
-    }
-
-    .target-card {
-      background: var(--snow-soft);
-      border: 2px solid var(--ice-border);
-      border-radius: 18px;
-      padding: 1.2rem;
-      max-width: 650px;
-      margin: 1.2rem auto;
-      box-shadow: 0 4px 12px rgba(18, 48, 80, 0.04);
-    }
-
-    .target-tag {
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--ru-red);
-      letter-spacing: 1px;
-    }
-
-    .target-english {
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-top: 4px;
-    }
-
-    .words-tray {
-      min-height: 85px;
-      background: #f1f7fc;
-      border: 2px dashed #90caf9;
-      border-radius: 20px;
-      max-width: 780px;
-      margin: 1.2rem auto;
-      padding: 0.9rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 0.8rem;
-      transition: all 0.3s;
-    }
-
-    .words-tray.active {
-      border-color: var(--ru-red);
-      background: #fff5f5;
-    }
-
-    .tray-placeholder {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-
-    .words-bank {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.8rem;
-      max-width: 780px;
-      margin: 1.5rem auto;
-    }
-
-    .word-chip {
-      background: #ffffff;
-      color: var(--text-dark);
-      border: 2px solid var(--ice-border);
-      padding: 0.7rem 1.4rem;
-      border-radius: 50px;
-      font-size: 1.15rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(18, 48, 80, 0.06);
-      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    .word-chip:hover {
-      border-color: var(--ru-red);
-      color: var(--ru-red);
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 0 8px 18px rgba(217, 4, 41, 0.18);
-    }
-
-    .word-chip.selected {
-      opacity: 0.25;
-      pointer-events: none;
-      transform: scale(0.9);
-      box-shadow: none;
-    }
-
-    .word-in-tray {
-      background: var(--ru-red);
-      color: #ffffff;
-      border: none;
-      padding: 0.65rem 1.2rem;
-      border-radius: 50px;
-      font-size: 1.15rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(217, 4, 41, 0.3);
-      animation: popIn 0.25s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .word-in-tray:hover {
-      background: #ba0322;
-    }
-
-    @keyframes popIn {
-      from { transform: scale(0.6); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .constructor-feedback {
-      min-height: 48px;
-      font-size: 1.1rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin: 1rem 0;
-    }
-
-    /* ========================================================
-       MODULE 4: QUIZ HUB & SHOW ARENA
-       ======================================================== */
-    .quiz-hub-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .quiz-card {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: var(--radius-fun);
-      padding: 1.8rem;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: all 0.25s;
-    }
-
-    .quiz-card:hover {
-      border-color: var(--ru-red);
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .quiz-icon {
-      font-size: 2.8rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .quiz-card h3 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--text-dark);
-      margin-bottom: 0.5rem;
-    }
-
-    .quiz-card p {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 1.4rem;
-    }
-
-    /* Live Quiz Arena */
-    .quiz-arena {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: var(--radius-fun);
-      padding: 2.4rem;
-      max-width: 850px;
-      margin: 0 auto;
-      box-shadow: var(--shadow-soft);
-      display: none;
-    }
-
-    .quiz-arena.active {
-      display: block;
-      animation: fadeIn 0.35s ease;
-    }
-
-    .quiz-progress-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.2rem;
-    }
-
-    .quiz-bar-wrap {
-      width: 100%;
-      height: 10px;
-      background: #eef5fa;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-bottom: 1.6rem;
-    }
-
-    .quiz-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #d90429 0%, #ff758f 100%);
-      width: 0%;
-      transition: width 0.3s ease;
-    }
-
-    .quiz-q-box {
-      background: var(--snow-soft);
-      border: 2px solid var(--ice-border);
-      border-radius: 18px;
-      padding: 1.8rem;
-      text-align: center;
-      margin-bottom: 1.6rem;
-    }
-
-    .quiz-char-cue {
-      font-size: 3.5rem;
-      font-weight: 900;
-      color: var(--ru-red);
-      margin: 0.4rem 0;
-    }
-
-    .quiz-q-title {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--text-dark);
-    }
-
-    .quiz-options-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1.6rem;
-    }
-
-    @media (max-width: 650px) {
-      .quiz-options-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .quiz-option-btn {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: 16px;
-      padding: 1.1rem 1.4rem;
-      color: var(--text-dark);
-      font-family: inherit;
-      font-size: 1.05rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-align: left;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 10px rgba(18, 48, 80, 0.04);
-      transition: all 0.2s;
-    }
-
-    .quiz-option-btn:hover:not(:disabled) {
-      border-color: var(--ru-red);
-      color: var(--ru-red);
-      transform: translateY(-2px);
-    }
-
-    .quiz-option-btn.correct {
-      background: #dcfce7 !important;
-      color: #166534 !important;
-      border-color: #22c55e !important;
-    }
-
-    .quiz-option-btn.wrong {
-      background: #fee2e2 !important;
-      color: #991b1b !important;
-      border-color: #ef4444 !important;
-    }
-
-    .quiz-explanation {
-      background: var(--snow-soft);
-      border-radius: 14px;
-      padding: 1.1rem;
-      margin-bottom: 1.4rem;
-      font-size: 1rem;
-      font-weight: 700;
-      display: none;
-    }
-
-    /* Modal Dialog */
-    .modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(18, 48, 80, 0.45);
-      backdrop-filter: blur(6px);
-      z-index: 1000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-
-    .modal-backdrop.active {
-      display: flex;
-    }
-
-    .modal-box {
-      background: #ffffff;
-      border: 2px solid var(--ice-border);
-      border-radius: var(--radius-fun);
-      padding: 2.2rem;
-      max-width: 480px;
-      width: 100%;
-      box-shadow: 0 20px 40px rgba(18, 48, 80, 0.15);
-      position: relative;
-    }
-
-    .modal-close-x {
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      font-size: 1.5rem;
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-      .hero-stage {
-        flex-direction: column-reverse;
-        text-align: center;
-      }
-      .hero-buttons {
-        justify-content: center;
-      }
-      .alphabet-grid {
-        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-      }
-      .cyrillic-char {
-        font-size: 2.6rem;
-      }
-    }
-  </style>
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/reef.css">
 </head>
 <body>
 
-  <!-- ================= Panoramic Mountain Backdrop ================= -->
-  <div class="mountain-backdrop">
-    <svg class="mountains-svg" viewBox="0 0 1440 380" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Distant soft mountain peaks -->
-      <polygon points="0,380 0,160 180,60 360,200 540,80 720,190 920,40 1100,180 1280,70 1440,160 1440,380" fill="#d8e8f6"/>
-      <!-- Mid-distance sharp mountain peaks with snowcaps -->
-      <polygon points="0,380 0,220 140,120 300,260 480,100 660,240 840,90 1020,230 1200,110 1360,240 1440,200 1440,380" fill="#c4dcf0"/>
-      <!-- Foreground snow ridges & snowy peaks -->
-      <polygon points="0,380 0,280 200,180 420,320 620,170 800,290 1000,150 1220,300 1440,220 1440,380" fill="#eaf2f8"/>
-      <!-- Pine tree silhouettes along ridge -->
-      <path d="M 60 260 L 70 240 L 80 260 Z M 160 210 L 170 190 L 180 210 Z M 580 200 L 590 180 L 600 200 Z M 960 180 L 970 160 L 980 180 Z M 1380 240 L 1390 220 L 1400 240 Z" fill="#7ba3c4"/>
-    </svg>
-  </div>
-
-  <!-- ================= Top Alpine Header ================= -->
-  <header>
-    <div class="header-container">
-      <div class="brand" onclick="switchPane('alphabet')">
-        <div class="brand-crest">🏔️</div>
-        <div class="brand-titles">
-          <h1>Академия <span>МИШКИ</span></h1>
-          <p>Belajar Bahasa Rusia di Pegunungan Salju</p>
-        </div>
-      </div>
-
-      <div class="game-hud">
-        <div class="hud-chip" title="Poin XP">
-          <span>⭐</span> <span class="val" id="hud-xp">0 XP</span>
-        </div>
-        <div class="hud-chip" title="Akurasi Jawaban">
-          <span>🎯</span> <span class="val" id="hud-acc">100%</span>
-        </div>
-        <div class="hud-chip" title="Gelar Kehormatan">
-          <span>🐻</span> <span class="val" id="hud-title">Новичок</span>
-        </div>
-        <button class="hud-btn" onclick="openAudioSettings()">
-          <span>🔊</span> Suara & Audio
-        </button>
-      </div>
+  <div id="app-container">
+    <!-- Living Canvas Viewport -->
+    <div id="canvas-wrapper">
+      <canvas id="reef-canvas"></canvas>
     </div>
-  </header>
 
-  <!-- ================= Navigation Tabs ================= -->
-  <div class="nav-tabs">
-    <button class="tab-btn active" id="tab-btn-alphabet" onclick="switchPane('alphabet')">
-      🔤 1. 33 Huruf Cyrillic
-    </button>
-    <button class="tab-btn" id="tab-btn-vocab" onclick="switchPane('vocab')">
-      📖 2. Kosakata Bergambar
-    </button>
-    <button class="tab-btn" id="tab-btn-grammar" onclick="switchPane('grammar')">
-      🚂 3. Bikin Kalimat Rusia
-    </button>
-    <button class="tab-btn" id="tab-btn-quiz" onclick="switchPane('quiz')">
-      🎯 4. Arena Kuis Seru
-    </button>
-  </div>
+    <!-- TOP HUD: Vitals, Resources, and Controls -->
+    <header class="top-hud-bar">
+      <!-- Brand -->
+      <div class="brand-section">
+        <div class="brand-logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><path d="M12 22v-8"/><path d="M9 14c-2 0-3-1-3-3 0-3 3-3 3-6"/><path d="M15 14c2 0 3-1 3-3 0-3-3-3-3-6"/><path d="M8 8c0-3 4-6 4-6s4 3 4 6"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>REEF GUARDIAN</h1>
+          <div class="brand-tagline">Oceanic Ecosystem Telemetry & Conservation</div>
+        </div>
+      </div>
 
-  <!-- ================= Main Container ================= -->
-  <main>
+      <!-- Environmental Vitals Dashboard -->
+      <div class="vitals-strip">
+        <!-- Temperature -->
+        <div class="vital-item" title="Water Temperature (°C). High heat (>30.2°C) causes coral bleaching!">
+          <div class="vital-header">
+            <span>TEMP</span>
+            <span><strong class="vital-value" id="temp-value">27.2°C</strong><span id="temp-warning" class="vital-warning-icon" style="display: none;">!</span></span>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-temp" id="temp-bar" style="width: 48%;"></div></div>
+        </div>
 
-    <!-- ========================================================
-         TAB 1: 33 ALPHABET CYRILLIC
-         ======================================================== -->
-    <div class="tab-pane active" id="pane-alphabet">
-      <!-- Hero Stage Banner with Misha Bear in Ushanka -->
-      <div class="hero-stage">
-        <div class="hero-info">
-          <div class="badge-mountain">🏔️ Pegunungan Salju Rusia • Шаг 1</div>
-          <h2 class="hero-title">Halo! Aku <span>Misha si Beruang Ushanka!</span></h2>
-          <p class="hero-desc">
-            Selamat datang di pondok pegunungan salju kami! Mari kita mulai petualangan seru ini dengan menguasai <strong>33 huruf Cyrillic</strong>. Klik huruf mana saja untuk mendengarkan suaraku mengucapkannya!
-          </p>
-          <div class="hero-buttons">
-            <button class="btn-red" onclick="startQuickQuiz('alphabet')">🎮 Main Kuis Huruf!</button>
-            <button class="btn-outline-ice" onclick="playAllVowelsAudio()">🎵 Dengarkan Semua Vokal</button>
+        <!-- Water Purity -->
+        <div class="vital-item" title="Water Purity (%). Degraded by plastic debris and runoff. Boosted by Giant Clams and cleanups.">
+          <div class="vital-header">
+            <span>PURITY</span>
+            <strong class="vital-value" id="purity-value">68%</strong>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-purity" id="purity-bar" style="width: 68%;"></div></div>
+        </div>
+
+        <!-- Coral Cover -->
+        <div class="vital-item" title="Living Coral Cover (%). The foundation of reef shelter. Restored by transplanting nursery fragments.">
+          <div class="vital-header">
+            <span>CANOPY</span>
+            <strong class="vital-value" id="coral-value">42%</strong>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-coral" id="coral-bar" style="width: 42%;"></div></div>
+        </div>
+
+        <!-- Algae Balance -->
+        <div class="vital-item" title="Macro-Algae (%). High algae suffocates corals. Controlled naturally by Parrotfish and Blue Tangs!">
+          <div class="vital-header">
+            <span>ALGAE</span>
+            <strong class="vital-value" id="algae-value">18%</strong>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-algae" id="algae-bar" style="width: 18%;"></div></div>
+        </div>
+
+        <!-- MPA Protection -->
+        <div class="vital-item" title="Marine Protected Area (MPA) Security. Protects against illegal trawling and dynamite poaching.">
+          <div class="vital-header">
+            <span>MPA SEC</span>
+            <strong class="vital-value" id="mpa-value">60%</strong>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-mpa" id="mpa-bar" style="width: 60%;"></div></div>
+        </div>
+      </div>
+
+      <!-- Limited Resources Strip -->
+      <div class="resources-strip">
+        <!-- Eco-Funds -->
+        <div class="res-chip" title="Eco-Funds ($): Earned from biodiversity grants and eco-tourism. Used for infrastructure & technology.">
+          <span class="res-icon" style="color: var(--accent-emerald); font-weight: 700; font-family: var(--font-data);">$</span>
+          <div class="res-info">
+            <span class="res-label">Funds</span>
+            <span class="res-value" id="funds-value">$650</span>
           </div>
         </div>
 
-        <!-- Misha Mascot SVG with Ushanka Hat & Interactive speech -->
-        <div class="misha-mascot-box" onclick="pokeMishaBear()">
-          <div class="misha-speech" id="misha-speech-text">
-            Privet! Klik aku yuk! 🐾
+        <!-- Volunteer Energy -->
+        <div class="res-chip" title="Marine Volunteer Energy: Recharges over time. Spent on cleanups, outplanting, and ranger patrols.">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-amber);"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div class="res-info">
+            <span class="res-label">Energy</span>
+            <span class="res-value" id="energy-value">60 / 100</span>
+            <div class="res-mini-bar"><div class="res-mini-fill fill-energy" id="energy-bar" style="width: 60%;"></div></div>
           </div>
-          <div class="misha-svg-wrap" id="misha-svg">
-            <svg viewBox="0 0 160 180" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <!-- Ears -->
-              <circle cx="36" cy="48" r="22" fill="#7a3e1d" stroke="#4a220b" stroke-width="4"/>
-              <circle cx="36" cy="48" r="12" fill="#d29062"/>
-              <circle cx="124" cy="48" r="22" fill="#7a3e1d" stroke="#4a220b" stroke-width="4"/>
-              <circle cx="124" cy="48" r="12" fill="#d29062"/>
+        </div>
 
-              <!-- Body with Russian Telnyashka -->
-              <ellipse cx="80" cy="155" rx="55" ry="38" fill="#7a3e1d" stroke="#4a220b" stroke-width="4"/>
-              <ellipse cx="80" cy="155" rx="38" ry="26" fill="#ffffff"/>
-              <!-- Blue stripes -->
-              <path d="M 45 145 Q 80 152 115 145" stroke="#0284c7" stroke-width="5" fill="none"/>
-              <path d="M 46 157 Q 80 164 114 157" stroke="#0284c7" stroke-width="5" fill="none"/>
-              <path d="M 52 169 Q 80 176 108 169" stroke="#0284c7" stroke-width="5" fill="none"/>
+        <!-- Nursery Coral Fragments -->
+        <div class="res-chip" title="Living Coral Nursery Fragments: Grown in nursery tanks, outplanted to restore bleached reefs.">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-coral);"><path d="M12 22v-7"/><path d="M9 15c-2 0-3-1-3-3 0-2 2-2 2-4"/><path d="M15 15c2 0 3-1 3-3 0-2-2-2-2-4"/></svg>
+          <div class="res-info">
+            <span class="res-label">Fragments</span>
+            <span class="res-value" id="fragments-value">35</span>
+          </div>
+        </div>
 
-              <!-- Head -->
-              <circle cx="80" cy="88" r="48" fill="#8d4922" stroke="#4a220b" stroke-width="4"/>
-              <!-- Muzzle -->
-              <ellipse cx="80" cy="104" rx="24" ry="18" fill="#e2a87b"/>
-              <!-- Nose -->
-              <ellipse cx="80" cy="97" rx="9" ry="6" fill="#200a06"/>
-              <!-- Mouth -->
-              <path d="M 74 105 Q 80 112 86 105" stroke="#200a06" stroke-width="3" fill="none" stroke-linecap="round"/>
-              <!-- Eyes with Cute Shine -->
-              <ellipse cx="64" cy="85" rx="5.5" ry="7" fill="#1b0805"/>
-              <circle cx="62.5" cy="83" r="2" fill="#ffffff"/>
-              <ellipse cx="96" cy="85" rx="5.5" ry="7" fill="#1b0805"/>
-              <circle cx="94.5" cy="83" r="2" fill="#ffffff"/>
-              <!-- Cheeks -->
-              <circle cx="50" cy="98" r="7" fill="#ff7675" opacity="0.6"/>
-              <circle cx="110" cy="98" r="7" fill="#ff7675" opacity="0.6"/>
-
-              <!-- Russian Ushanka Hat (Topi Bulu Ushanka) -->
-              <path d="M 32 62 Q 80 12 128 62 Z" fill="#2d3436" stroke="#1e2224" stroke-width="4"/>
-              <path d="M 40 64 Q 80 48 120 64 L 115 72 Q 80 60 45 72 Z" fill="#dfe6e9"/>
-              <rect x="24" y="60" width="16" height="34" rx="7" fill="#636e72" stroke="#2d3436" stroke-width="3"/>
-              <rect x="120" y="60" width="16" height="34" rx="7" fill="#636e72" stroke="#2d3436" stroke-width="3"/>
-              <!-- Soviet Red Star Badge -->
-              <polygon points="80,35 83,44 93,44 85,50 88,59 80,53 72,59 75,50 67,44 77,44" fill="#d90429" stroke="#f1c40f" stroke-width="1.5"/>
-
-              <!-- Paws -->
-              <circle cx="34" cy="140" r="14" fill="#7a3e1d" stroke="#4a220b" stroke-width="3"/>
-              <circle cx="126" cy="140" r="14" fill="#7a3e1d" stroke="#4a220b" stroke-width="3"/>
-            </svg>
+        <!-- Clean Solar Battery -->
+        <div class="res-chip" title="Clean Solar Battery: Powers upwelling pumps, sonar buoys, and autonomous debris traps.">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #f59e0b;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          <div class="res-info">
+            <span class="res-label">Solar</span>
+            <span class="res-value" id="solar-value">85%</span>
+            <div class="res-mini-bar"><div class="res-mini-fill fill-solar" id="solar-bar" style="width: 85%;"></div></div>
           </div>
         </div>
       </div>
 
-      <!-- Controls & Filter Bar -->
-      <div class="controls-panel">
-        <div class="pills-wrap">
-          <button class="pill-btn active" onclick="filterAlphabetCards('all', this)">Semua 33 Huruf</button>
-          <button class="pill-btn" onclick="filterAlphabetCards('vowel', this)">Vokal (10)</button>
-          <button class="pill-btn" onclick="filterAlphabetCards('consonant', this)">Konsonan (21)</button>
-          <button class="pill-btn" onclick="filterAlphabetCards('sign', this)">Tanda Khusus (2)</button>
-        </div>
-        <input type="text" class="search-box" id="search-alphabet" placeholder="🔍 Cari huruf atau bunyi..." onkeyup="searchAlphaCards(this.value)">
+      <!-- Control Group -->
+      <div class="hud-controls-group">
+        <button class="hud-btn" id="btn-pause" title="Pause simulation [Space]">Pause</button>
+        <button class="hud-btn active" id="btn-play" title="Normal Speed [1]">1x</button>
+        <button class="hud-btn" id="btn-fast" title="Fast Forward [2]">2x</button>
+        <button class="hud-btn" id="btn-zen" title="Toggle Peaceful Zen Sanctuary Mode">Zen Mode</button>
+        <button class="hud-btn" id="btn-audio" title="Toggle Procedural Ocean Soundscape [M]">Audio: On</button>
+        <button class="hud-btn" id="btn-reefdex" title="Open Marine Encyclopedia [R]">Field Catalog</button>
+        <button class="hud-btn" id="btn-guide" title="How to Play & Ocean Guide">Guide</button>
       </div>
+    </header>
 
-      <!-- False Friends Alert Callout -->
-      <div class="alert-mountain">
-        <div class="alert-icon">💡</div>
+    <!-- FLOATING SANCTUARY HEALTH SUMMARY (Top Left) -->
+    <aside class="sanctuary-badge-card">
+      <div class="sanctuary-badge-header">
+        <span class="sanctuary-title">Ecosystem Balance</span>
+        <span class="sanctuary-day-badge">DAY <span id="days-value">0</span></span>
+      </div>
+      <div class="biodiversity-row">
+        <span class="biodiversity-label">Biodiversity Index</span>
+        <span class="biodiversity-val" id="biodiversity-value">25%</span>
+      </div>
+      <div class="biodiversity-track">
+        <div class="biodiversity-fill" id="biodiversity-bar"></div>
+      </div>
+      <div class="species-thriving-row">
+        <span>Sustained Taxa:</span>
+        <strong id="species-count-value">4 / 16</strong>
+      </div>
+    </aside>
+
+    <!-- SPECIES SANCTUARY ROSTER (Right Drawer) -->
+    <aside class="species-drawer" id="species-drawer">
+      <div class="drawer-header">
         <div>
-          <h4>Waspadai "Teman Palsu" (False Friends) Huruf Cyrillic!</h4>
-          <p>
-            Banyak huruf Cyrillic terlihat mirip huruf Latin Inggris, tapi bunyinya BEDA BANGET lho:<br>
-            • <strong>В в</strong> dibaca <strong>[V]</strong> (bukan B!) • <strong>Р р</strong> dibaca <strong>[R]</strong> getar lidah (bukan P!)<br>
-            • <strong>Н н</strong> dibaca <strong>[N]</strong> (bukan H!) • <strong>С с</strong> dibaca <strong>[S]</strong> (bukan K/C!)<br>
-            • <strong>Х х</strong> dibaca <strong>[Kh]</strong> serak tenggorokan • <strong>У у</strong> dibaca <strong>[U / Oo]</strong> (bukan Y!)
-          </p>
+          <h3>Sanctuary Population</h3>
+          <span class="drawer-subtitle">Species Health & Ecological Equilibrium</span>
         </div>
       </div>
-
-      <!-- Alphabet Grid -->
-      <div class="alphabet-grid" id="alphabet-grid">
-        <!-- Populated by JS -->
+      <div class="species-grid-scroll" id="species-grid">
+        <!-- Rendered dynamically by ReefUI -->
       </div>
-    </div>
+    </aside>
 
-    <!-- ========================================================
-         TAB 2: KOSAKATA (VOCABULARY)
-         ======================================================== -->
-    <div class="tab-pane" id="pane-vocab">
-      <div class="hero-stage">
-        <div class="hero-info">
-          <div class="badge-mountain">🏔️ Kosakata Rusia • Шаг 2</div>
-          <h2 class="hero-title">Perbendaharaan Kata <span>Slovar' (Словарь)</span></h2>
-          <p class="hero-desc">
-            Kumpulan kosakata esensial sehari-hari lengkap dengan transliterasi pelafalan, arti bahasa Inggris, contoh kalimat riil, dan audio pengucapannya!
-          </p>
-          <div class="hero-buttons">
-            <button class="btn-red" onclick="startQuickQuiz('vocab')">🎮 Main Kuis Kosakata!</button>
-          </div>
-        </div>
-        <div style="font-size: 5.5rem;">🪆</div>
-      </div>
+    <!-- BOTTOM ACTION DOCK (Conservation Station) -->
+    <nav class="action-dock-container">
+      <div class="action-dock">
+        <!-- 1. Cleanup Dive -->
+        <button class="action-btn" data-action="cleanup_dive" title="Mobilize volunteer divers to clear drifting plastics and ghost nets. [Hotkey: C]">
+          <span class="hotkey-hint">C</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
+          <span class="action-label">Debris Sweep</span>
+          <span class="action-cost-tag">15 Energy</span>
+        </button>
 
-      <!-- Category Filter -->
-      <div class="controls-panel">
-        <div class="pills-wrap" id="vocab-pills">
-          <button class="pill-btn active" onclick="filterVocabCards('all', this)">Semua Kata</button>
-          <button class="pill-btn" onclick="filterVocabCards('greetings', this)">👋 Salam & Sopan</button>
-          <button class="pill-btn" onclick="filterVocabCards('essentials', this)">🔑 Kata Pokok</button>
-          <button class="pill-btn" onclick="filterVocabCards('numbers', this)">🔢 Angka 1-10</button>
-          <button class="pill-btn" onclick="filterVocabCards('verbs', this)">⚡ Kata Kerja</button>
-          <button class="pill-btn" onclick="filterVocabCards('food', this)">🍲 Makanan/Minuman</button>
-          <button class="pill-btn" onclick="filterVocabCards('winter', this)">🏔️ Khas Rusia & Alam</button>
-        </div>
-        <input type="text" class="search-box" id="search-vocab" placeholder="🔍 Cari kata Rusia/Inggris..." onkeyup="searchVocabCards(this.value)">
-      </div>
+        <!-- 2. Thermal Shade Nets -->
+        <button class="action-btn" data-action="deploy_shade" title="Deploy surface shade screens to lower water temp by -2.2°C for 45s during heatwaves! [Hotkey: S]">
+          <span class="hotkey-hint">S</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span class="action-label">Thermal Shading</span>
+          <span class="action-cost-tag">$220 Funds</span>
+        </button>
 
-      <!-- Vocab Grid -->
-      <div class="vocab-grid" id="vocab-grid">
-        <!-- Populated by JS -->
-      </div>
-    </div>
+        <!-- 3. Cold Upwelling Pump -->
+        <button class="action-btn" data-action="activate_upwelling" title="Circulate deep-trench cold ocean water to prevent catastrophic coral bleaching. [Hotkey: U]">
+          <span class="hotkey-hint">U</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M12 8v4l3 3"/></svg>
+          <span class="action-label">Deep Upwelling</span>
+          <span class="action-cost-tag">$350 + 20 ☀️</span>
+        </button>
 
-    <!-- ========================================================
-         TAB 3: TATA BAHASA & PERAKITAN KALIMAT
-         ======================================================== -->
-    <div class="tab-pane" id="pane-grammar">
-      <div class="hero-stage">
-        <div class="hero-info">
-          <div class="badge-mountain">🏔️ Susun Kalimat • Шаг 3</div>
-          <h2 class="hero-title">Trik Bikin Kalimat Rusia <span>yang Benar!</span></h2>
-          <p class="hero-desc">
-            Bahasa Rusia sangat seru: di masa sekarang tidak ada kata "is/am/are" (*Zero Copula*), dan susunan katanya sangat bebas! Coba minigame susun kalimat di bawah ini ya!
-          </p>
-        </div>
-        <div style="font-size: 5.5rem;">🚂</div>
-      </div>
+        <!-- 4. Outplant Coral Fragments -->
+        <button class="action-btn" data-action="outplant_corals" title="Transplant 12 lab-grown coral fragments to rebuild damaged reef bommies. [Hotkey: O]">
+          <span class="hotkey-hint">O</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22v-8"/><path d="M9 14c-2 0-3-1-3-3 0-3 3-3 3-6"/><path d="M15 14c2 0 3-1 3-3 0-3-3-3-3-6"/></svg>
+          <span class="action-label">Outplant Corals</span>
+          <span class="action-cost-tag">12 Frags + 10 E</span>
+        </button>
 
-      <!-- Grammar Insights Row -->
-      <div class="grammar-row">
-        <div class="grammar-box">
-          <h3><span>📜</span> Aturan 1: Bebas Kata "Is / Am / Are"!</h3>
-          <div class="rule-block">
-            <h5>Zero Copula (Present Tense)</h5>
-            <p>
-              Di bahasa Inggris kita harus bilang <em>"I <u>am</u> a student"</em> atau <em>"This <u>is</u> tea"</em>. Di bahasa Rusia masa kini, kata kerja 'to be' dihilangkan langsung:
-            </p>
-            <div class="pill-example">
-              <strong>Я студент</strong> = I am a student (Harfiah: "Saya murid")<br>
-              <strong>Это чай</strong> = This is tea (Harfiah: "Ini teh")
-            </div>
-          </div>
+        <!-- 5. Introduce Giant Triton Snail -->
+        <button class="action-btn" data-action="introduce_triton" title="Release predatory Giant Triton snails to naturally hunt invasive Crown-of-Thorns Starfish.">
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8a4 4 0 1 0 4 4"/></svg>
+          <span class="action-label">Triton Bio-Control</span>
+          <span class="action-cost-tag">$300 Funds</span>
+        </button>
 
-          <div class="rule-block">
-            <h5>Susunan Kata Bebas (Word Order)</h5>
-            <p>
-              Urutan standar adalah Subjek + Kata Kerja + Objek, namun kamu bebas membolak-balik urutan untuk memberi penekanan emosi atau topik utama:
-            </p>
-            <div class="pill-example">
-              <strong>Я люблю Россию</strong> (I love Russia)<br>
-              <strong>Россию я люблю!</strong> (Russia, I really love!)
-            </div>
-          </div>
-        </div>
+        <!-- 6. MPA Ranger Patrol -->
+        <button class="action-btn" data-action="patrol_boat" title="Dispatch solar ranger patrol boat to banish illegal trawlers and protect marine animals. [Hotkey: P]">
+          <span class="hotkey-hint">P</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="action-label">Ranger Patrol</span>
+          <span class="action-cost-tag">$200 + 12 E</span>
+        </button>
 
-        <div class="grammar-box">
-          <h3><span>🪆</span> Aturan 2: Pola Kalimat Sehari-Hari</h3>
-          <div class="rule-block">
-            <h5>1. Memperkenalkan Nama: "Меня зовут..."</h5>
-            <p>Secara harfiah artinya: <em>"Orang-orang memanggilku..."</em></p>
-            <div class="pill-example">
-              <strong>Меня зовут Иван.</strong> (My name is Ivan.)
-            </div>
-          </div>
+        <!-- 7. Coral Nursery Propagation -->
+        <button class="action-btn" data-action="propagate_nursery" title="Cultivate 18 new resilient coral fragments in the marine laboratory tanks.">
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6"/><path d="M10 9h4"/><path d="M10 3v6l-4 9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l-4-9V3"/></svg>
+          <span class="action-label">Lab Nursery</span>
+          <span class="action-cost-tag">$150 Funds</span>
+        </button>
 
-          <div class="rule-block">
-            <h5>2. Menolak / Mengatakan Tidak: Tambah "НЕ"</h5>
-            <p>Tinggal taruh kata <strong>не</strong> tepat di depan kata kerjanya!</p>
-            <div class="pill-example">
-              <strong>Я знаю</strong> (I know) ➔ <strong>Я <u>не</u> знаю</strong> (I don't know)<br>
-              <strong>Я понимаю</strong> (I understand) ➔ <strong>Я <u>не</u> понимаю</strong> (I don't understand)
-            </div>
-          </div>
-
-          <div class="rule-block">
-            <h5>3. Kepemilikan: "У меня есть..." (I have...)</h5>
-            <p>Secara harfiah: <em>"Pada diriku ada..."</em></p>
-            <div class="pill-example">
-              <strong>У меня есть собака.</strong> (I have a dog.)
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Minigame Constructor Station -->
-      <div class="constructor-station">
-        <h3 class="station-title">🎮 Minigame: <span>Susun Kalimat Bersama Misha!</span></h3>
-        <p style="color: var(--text-muted); font-size: 1.05rem;">
-          Klik kepingan kata Rusia di bawah dalam urutan yang tepat untuk menerjemahkan kalimat target!
-        </p>
-
-        <div class="target-card">
-          <div class="target-tag">Target Terjemahan (English):</div>
-          <div class="target-english" id="target-phrase-label">"I do not understand Russian"</div>
-        </div>
-
-        <div class="words-tray" id="words-tray">
-          <span class="tray-placeholder">Klik keping kata di bawah untuk meletakkannya di sini...</span>
-        </div>
-
-        <div class="words-bank" id="words-bank">
-          <!-- Populated by JS -->
-        </div>
-
-        <div class="constructor-feedback" id="constructor-feedback"></div>
-
-        <div style="display:flex; justify-content:center; gap: 1rem; flex-wrap:wrap;">
-          <button class="btn-outline-ice" onclick="resetSentencePuzzle()">🔄 Susun Ulang</button>
-          <button class="btn-red" id="btn-check-puzzle" onclick="checkSentencePuzzle()">✨ Cek Kalimat!</button>
-          <button class="btn-red" id="btn-next-puzzle" style="display:none;" onclick="loadNextSentencePuzzle()">Lanjut Kalimat Berikutnya ➔</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========================================================
-         TAB 4: ARENA KUIS & UJIAN
-         ======================================================== -->
-    <div class="tab-pane" id="pane-quiz">
-      <div class="hero-stage">
-        <div class="hero-info">
-          <div class="badge-mountain">🏔️ Uji Kemampuan • Шаг 4</div>
-          <h2 class="hero-title">Arena Ujian & Kuis <span>Bahasa Rusia!</span></h2>
-          <p class="hero-desc">
-            Ayo buktikan seberapa jago kamu menguasai huruf dan kosakata! Raih poin XP, dapatkan medali keemasan, dan jadilah Tsar Bahasa Rusia!
-          </p>
-        </div>
-        <div style="font-size: 5.5rem;">🏆</div>
-      </div>
-
-      <!-- Quiz Selection Hub -->
-      <div class="quiz-hub-grid" id="quiz-hub-grid">
-        <div class="quiz-card">
-          <div>
-            <div class="quiz-icon">🔤</div>
-            <h3>Kuis 33 Huruf Cyrillic</h3>
-            <p>10 soal seru tebak huruf, bunyi, jebakan false friends, dan tes pendengaran audio dari Misha.</p>
-          </div>
-          <button class="btn-red" onclick="startQuizMode('alphabet')">Mulai Kuis Huruf ➔</button>
-        </div>
-
-        <div class="quiz-card">
-          <div>
-            <div class="quiz-icon">📖</div>
-            <h3>Tantangan Kosakata</h3>
-            <p>10 soal pilihan ganda tebak arti kata Rusia ke Inggris dan sebaliknya dengan pelafalan suara.</p>
-          </div>
-          <button class="btn-red" onclick="startQuizMode('vocab')">Mulai Kuis Kata ➔</button>
-        </div>
-
-        <div class="quiz-card">
-          <div>
-            <div class="quiz-icon">🚂</div>
-            <h3>Kuis Tata Bahasa & Kalimat</h3>
-            <p>10 soal menguji pemahaman aturan 'to be', kata negatif 'не', dan rumus praktis memperkenalkan diri.</p>
-          </div>
-          <button class="btn-red" onclick="startQuizMode('grammar')">Mulai Kuis Kalimat ➔</button>
-        </div>
-
-        <div class="quiz-card" style="border-color: var(--ru-red);">
-          <div>
-            <div class="quiz-icon">👑</div>
-            <h3 style="color:var(--ru-red);">Ujian Akbar Tsar Rusia</h3>
-            <p>15 soal acak gabungan huruf, kata, dan kalimat untuk mendapatkan medali kehormatan tertinggi!</p>
-          </div>
-          <button class="btn-red" onclick="startQuizMode('master')">Ikuti Ujian Tsar ➔</button>
-        </div>
-      </div>
-
-      <!-- Live Quiz Player Arena -->
-      <div class="quiz-arena" id="quiz-player-arena">
-        <div class="quiz-progress-top">
-          <div style="font-weight: 800; font-size: 1.1rem; color: var(--ru-red);" id="quiz-progress-label">
-            Pertanyaan 1 / 10
-          </div>
-          <button class="btn-outline-ice" style="padding: 0.35rem 0.9rem; font-size: 0.85rem;" onclick="exitQuizArena()">
-            ✕ Selesai
-          </button>
-        </div>
-
-        <div class="quiz-bar-wrap">
-          <div class="quiz-bar-fill" id="quiz-bar-fill"></div>
-        </div>
-
-        <div class="quiz-q-box">
-          <div style="font-size: 0.9rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;" id="quiz-type-tag">Tebak Huruf</div>
-          <div class="quiz-char-cue" id="quiz-char-cue">Д д</div>
-          <div class="quiz-q-title" id="quiz-q-title">Huruf ini berbunyi seperti apa ya?</div>
-          <div id="quiz-audio-btn-holder" style="margin-top: 0.8rem;"></div>
-        </div>
-
-        <div class="quiz-options-grid" id="quiz-options-grid">
-          <!-- Populated by JS -->
-        </div>
-
-        <div class="quiz-explanation" id="quiz-explanation-box"></div>
-
-        <div style="text-align: right;">
-          <button class="btn-red" id="btn-next-quiz-q" style="display:none;" onclick="nextQuizQuestion()">
-            Soal Selanjutnya ➔
-          </button>
-        </div>
-      </div>
-
-      <!-- Quiz Victory Box -->
-      <div class="quiz-arena" id="quiz-victory-box" style="text-align: center;">
-        <div style="font-size: 5rem; margin-bottom: 0.8rem;" id="victory-badge">🏆</div>
-        <h2 style="font-size: 2.2rem; color: var(--ru-red); margin-bottom: 0.5rem;" id="victory-heading">Отлично! Luar Biasa!</h2>
-        <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1.5rem;" id="victory-subtitle">
-          Kamu telah menyelesaikan kuis ini dengan sangat membanggakan!
-        </p>
-
-        <div style="display:flex; justify-content:center; gap: 1.5rem; margin-bottom: 2rem;">
-          <div style="background: var(--snow-soft); border: 2px solid var(--ice-border); padding: 1.2rem 2.2rem; border-radius: 18px;">
-            <div style="font-size: 0.85rem; color: var(--text-muted); text-transform:uppercase; font-weight:700;">Skor Kamu</div>
-            <div style="font-size: 2.5rem; font-weight: 800; color: var(--text-dark);" id="victory-score-num">10/10</div>
-          </div>
-          <div style="background: var(--snow-soft); border: 2px solid var(--ice-border); padding: 1.2rem 2.2rem; border-radius: 18px;">
-            <div style="font-size: 0.85rem; color: var(--text-muted); text-transform:uppercase; font-weight:700;">Bonus XP</div>
-            <div style="font-size: 2.5rem; font-weight: 800; color: var(--ru-red);" id="victory-xp-num">+150 XP</div>
-          </div>
-        </div>
-
-        <div style="display:flex; justify-content:center; gap: 1rem;">
-          <button class="btn-red" onclick="exitQuizArena()">Pilih Kuis Lain</button>
-          <button class="btn-outline-ice" onclick="retryActiveQuiz()">Ulangi Kuis ↺</button>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ================= Audio Settings Modal ================= -->
-  <div class="modal-backdrop" id="audio-settings-modal">
-    <div class="modal-box">
-      <button class="modal-close-x" onclick="closeAudioSettings()">✕</button>
-      <h3 style="font-size: 1.4rem; color: var(--ru-red); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px;">
-        <span>🔊</span> Pengaturan Suara & Audio
-      </h3>
-
-      <div style="margin-bottom: 1.2rem;">
-        <label style="display: block; font-weight: 700; margin-bottom: 0.4rem; font-size: 0.95rem; color:var(--text-dark);">
-          Pilih Suara Native Rusia (ru-RU):
-        </label>
-        <select id="voice-dropdown" style="width:100%; padding:0.65rem; border-radius:12px; background:#fff; border:2px solid var(--ice-border); color:var(--text-dark); font-family:inherit;" onchange="updateSelectedVoice(this.value)">
-          <option value="">Deteksi Otomatis Browser</option>
-        </select>
-      </div>
-
-      <div style="margin-bottom: 1.2rem;">
-        <label style="display: block; font-weight: 700; margin-bottom: 0.4rem; font-size: 0.95rem; color:var(--text-dark);">
-          Kecepatan Bicara (Speed): <span id="speed-indicator" style="color:var(--ru-red);">0.85x (Pas Belajar)</span>
-        </label>
-        <input type="range" id="speech-speed-range" min="0.5" max="1.2" step="0.05" value="0.85" style="width: 100%;" oninput="adjustSpeechSpeed(this.value)">
-      </div>
-
-      <div style="margin-bottom: 1.5rem;">
-        <button class="btn-outline-ice" style="width:100%; justify-content:center;" id="btn-toggle-sfx" onclick="toggleAudioSFX()">
-          🎵 Musik & Efek Suara: AKTIF
+        <!-- 8. Macro-Algae Weeding Dive -->
+        <button class="action-btn" data-action="weed_algae" title="Strip away smothering green macro-algae when herbivorous fish counts are depleted.">
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          <span class="action-label">Algae Control</span>
+          <span class="action-cost-tag">12 Energy</span>
         </button>
       </div>
+    </nav>
+  </div>
 
-      <button class="btn-red" style="width: 100%; justify-content:center;" onclick="testSpeechPlayback()">
-        ▶️ Tes Suara Misha: "Привет! Как дела?"
-      </button>
+  <!-- ==========================================================================
+       MODALS
+       ========================================================================== -->
+
+  <!-- 1. Species Detail & Fun Facts Modal -->
+  <div class="modal-backdrop" id="species-detail-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll" id="species-modal-content">
+        <!-- Injected via ReefUI.openSpeciesModal -->
+      </div>
     </div>
   </div>
 
-  <!-- ================= JAVASCRIPT APPLICATION CORE ================= -->
-  <script>
-    /* ========================================================
-       1. DATA ALFABET CYRILLIC (33 HURUF)
-       ======================================================== */
-    const RUSSIAN_ALPHABET = [
-      { char: "А а", name: "А (ah)", type: "vowel", sound: "Seperti 'a' pada kata 'ayah' atau 'father'", example: "Ананас", exampleEn: "Nanas (Pineapple)" },
-      { char: "Б б", name: "Бэ (beh)", type: "consonant", sound: "Seperti 'b' pada kata 'buku' atau 'book'", example: "Борщ", exampleEn: "Sup Borscht Tradisional" },
-      { char: "В в", name: "Вэ (veh)", type: "consonant", sound: "Seperti 'v' pada 'victory' (Bentuknya mirip B Latin!)", example: "Вода", exampleEn: "Air (Water)" },
-      { char: "Г г", name: "Гэ (geh)", type: "consonant", sound: "Seperti 'g' pada kata 'gajah' atau 'go'", example: "Город", exampleEn: "Kota (City)" },
-      { char: "Д д", name: "Дэ (deh)", type: "consonant", sound: "Seperti 'd' pada kata 'danau' atau 'door'", example: "Дом", exampleEn: "Rumah (House)" },
-      { char: "Е е", name: "Е (yeh)", type: "vowel", sound: "Seperti 'ye' pada kata 'yes' atau 'ayo'", example: "Если", exampleEn: "Jika (If)" },
-      { char: "Ё ё", name: "Ё (yo)", type: "vowel", sound: "Seperti 'yo' pada 'yogurt' (Selalu ditekan/stressed)", example: "Ёлка", exampleEn: "Pohon Cemara Salju" },
-      { char: "Ж ж", name: "Жэ (zheh)", type: "consonant", sound: "Seperti bunyi 's' pada 'measure' atau 'zhe'", example: "Жизнь", exampleEn: "Kehidupan (Life)" },
-      { char: "З з", name: "Зэ (zeh)", type: "consonant", sound: "Seperti 'z' pada 'zebra' (Mirip angka 3!)", example: "Зима", exampleEn: "Musim Dingin (Winter)" },
-      { char: "И и", name: "И (ee)", type: "vowel", sound: "Seperti 'i' pada kata 'ikan' atau 'meet' (Mirip N terbalik)", example: "Игра", exampleEn: "Game / Permainan" },
-      { char: "Й й", name: "И краткое (y)", type: "consonant", sound: "Seperti 'y' pada kata 'boy' atau 'pantai'", example: "Йогурт", exampleEn: "Yogurt" },
-      { char: "К к", name: "Ка (kah)", type: "consonant", sound: "Seperti 'k' pada kata 'kucing' atau 'kite'", example: "Кот", exampleEn: "Kucing (Cat)" },
-      { char: "Л л", name: "Эль (el)", type: "consonant", sound: "Seperti 'l' pada kata 'lampu' atau 'lamp'", example: "Луна", exampleEn: "Bulan (Moon)" },
-      { char: "М м", name: "Эм (em)", type: "consonant", sound: "Seperti 'm' pada kata 'malam' atau 'mother'", example: "Медведь", exampleEn: "Beruang Misha! (Bear)" },
-      { char: "Н н", name: "Эн (en)", type: "consonant", sound: "Seperti 'n' pada kata 'nasi' (Mirip H Latin!)", example: "Нос", exampleEn: "Hidung (Nose)" },
-      { char: "О о", name: "О (oh / ah)", type: "vowel", sound: "Bunyi 'o' bulat, atau 'a' jika tidak ditekan", example: "Окно", exampleEn: "Jendela (Window)" },
-      { char: "П п", name: "Пэ (peh)", type: "consonant", sound: "Seperti 'p' pada kata 'pagi' (Mirip lambang Pi)", example: "Парк", exampleEn: "Taman (Park)" },
-      { char: "Р р", name: "Эр (er)", type: "consonant", sound: "Bunyi 'r' getar lidah (Mirip P Latin!)", example: "Россия", exampleEn: "Rusia (Russia)" },
-      { char: "С с", name: "Эс (es)", type: "consonant", sound: "Selalu berbunyi 's' pada 'susu' (Mirip C Latin!)", example: "Собака", exampleEn: "Anjing (Dog)" },
-      { char: "Т т", name: "Тэ (teh)", type: "consonant", sound: "Seperti 't' pada kata 'toko' atau 'tea'", example: "Торт", exampleEn: "Kue Tart (Cake)" },
-      { char: "У у", name: "У (oo)", type: "vowel", sound: "Seperti 'u' pada 'bulan' atau 'moon' (Mirip Y Latin!)", example: "Утро", exampleEn: "Pagi (Morning)" },
-      { char: "Ф ф", name: "Эф (ef)", type: "consonant", sound: "Seperti 'f' pada kata 'foto' atau 'film'", example: "Фильм", exampleEn: "Film (Movie)" },
-      { char: "Х х", name: "Ха (khah)", type: "consonant", sound: "Bunyi 'kh' serak tenggorokan (Mirip X Latin!)", example: "Хлеб", exampleEn: "Roti (Bread)" },
-      { char: "Ц ц", name: "Цэ (tseh)", type: "consonant", sound: "Seperti 'ts' pada 'tsunami' atau 'cats'", example: "Центр", exampleEn: "Pusat Kota (Center)" },
-      { char: "Ч ч", name: "Че (cheh)", type: "consonant", sound: "Seperti 'c' atau 'ch' pada 'chair' / 'cokelat'", example: "Чай", exampleEn: "Teh Hangat (Tea)" },
-      { char: "Ш ш", name: "Ша (shah)", type: "consonant", sound: "Bunyi 'sh' tebal keras seperti 'shut'", example: "Шапка", exampleEn: "Topi Ushanka (Hat)" },
-      { char: "Щ щ", name: "Ща (shchah)", type: "consonant", sound: "Bunyi 'sh-ch' lembut seperti pada 'fresh cheese'", example: "Щи", exampleEn: "Sup Kubis Tradisional" },
-      { char: "Ъ ъ", name: "Твёрдый знак (Hard sign)", type: "sign", sound: "Tanda keras: tanpa suara, pemisah tegas vokal", example: "Объект", exampleEn: "Objek (Object)" },
-      { char: "Ы ы", name: "Ы (y / guttural i)", type: "vowel", sound: "Vokal dalam: katakan 'i' tapi lidah ditarik ke belakang", example: "Мыло", exampleEn: "Sabun (Soap)" },
-      { char: "Ь ь", name: "Мягкий знак (Soft sign)", type: "sign", sound: "Tanda lembut: tanpa suara, melembutkan konsonan", example: "Мать", exampleEn: "Ibu (Mother)" },
-      { char: "Э э", name: "Э (eh)", type: "vowel", sound: "Seperti 'e' pada kata 'ember' atau 'pet'", example: "Это", exampleEn: "Ini adalah (This is)" },
-      { char: "Ю ю", name: "Ю (yoo)", type: "vowel", sound: "Seperti 'yu' pada 'universe' atau 'juta'", example: "Юг", exampleEn: "Selatan (South)" },
-      { char: "Я я", name: "Я (yah)", type: "vowel", sound: "Seperti 'ya' pada 'yard' (Juga berarti 'Saya / I')", example: "Яблоко", exampleEn: "Apel Segar (Apple)" }
-    ];
+  <!-- 2. Dynamic Threat / Event Alert Modal -->
+  <div class="modal-backdrop" id="event-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll" id="event-modal-content">
+        <!-- Injected via ReefUI.showEventModal -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Reefdex Marine Biology Encyclopedia Modal -->
+  <div class="modal-backdrop" id="reefdex-modal">
+    <div class="modal-dialog modal-dialog-large">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll">
+        <h2 class="modal-title" style="margin-bottom: 4px;">📖 Reefdex: Marine Encyclopedia</h2>
+        <p class="modal-subtitle" style="margin-bottom: 16px;">Discover ecological roles, mutualistic alliances, and verified marine biology facts.</p>
+        <div id="reefdex-entries">
+          <!-- Injected via ReefUI.renderReefdexModal -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. How to Play & Ocean Conservation Guide Modal -->
+  <div class="modal-backdrop" id="guide-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll">
+        <h2 class="modal-title">🌊 How to Be a Reef Guardian</h2>
+        <p class="modal-subtitle">Your mission isn't chasing a high score—it is keeping living species alive and nurturing ecosystem equilibrium!</p>
+
+        <div class="species-role-box" style="margin-top: 10px;">
+          <h4>🎯 The Core Objective</h4>
+          <p>Maintain balanced water chemistry and coral coverage so baseline pioneer species thrive. As your <strong>Biodiversity Index</strong> rises, more delicate, keystone, and endangered species migrate into your sanctuary!</p>
+        </div>
+
+        <div class="fun-facts-section">
+          <h3>🎮 Essential Strategies:</h3>
+          <ul class="fun-facts-list">
+            <li><span class="bullet">🔥</span> <strong>Combating Marine Heatwaves:</strong> If water temp surpasses <strong>30.2°C</strong>, corals begin bleaching. Immediately deploy <em>Solar Shade Screens</em> or start <em>Cold Upwelling Pumps</em>.</li>
+            <li><span class="bullet">🗑️</span> <strong>Cleaning Plastic Pollution:</strong> Click drifting bottles and nets directly on canvas to earn immediate funds, or dispatch a <em>Volunteer Cleanup Dive</em>.</li>
+            <li><span class="bullet">⭐</span> <strong>Stopping Crown-of-Thorns Starfish (COTS):</strong> Click COTS directly to target-cull them, or reintroduce <em>Giant Triton Snails</em> for natural biological defense!</li>
+            <li><span class="bullet">🌿</span> <strong>Controlling Smothering Algae:</strong> Keep <em>Rainbow Parrotfish</em> and <em>Blue Tangs</em> healthy—their active grazing cleans bare rock so baby corals can settle!</li>
+            <li><span class="bullet">🛡️</span> <strong>Overfishing & Poachers:</strong> Maintain high MPA protection with <em>Ranger Patrols</em> to shield sharks and turtles from trawlers.</li>
+            <li><span class="bullet">🐬</span> <strong>Beneficial Allies:</strong> Giant Clams filter hundreds of liters of water daily, while Cleaner Wrasses run health clinics that boost disease immunity for all fish!</li>
+          </ul>
+        </div>
+
+        <div class="conservation-tip-box">
+          <strong>💡 Pro Tip:</strong> Click directly on swimming fish or turtles in the ocean at any time to open their live health card and read fascinating fun facts!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts in dependency order -->
+  <script src="js/data/speciesData.js"></script>
+  <script src="js/data/eventsData.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/canvas.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
 
-    /* ========================================================
-       2. DATA KOSAKATA (RUSSIAN VOCABULARY)
-       ======================================================== */
-    const RUSSIAN_VOCAB = [
-      // Greetings
-      { ru: "Здравствуйте", phonetic: "Zdravstvuyte", en: "Hello (Formal / Sopan)", cat: "greetings", exRu: "Здравствуйте, друзья!", exEn: "Hello, friends!" },
-      { ru: "Привет", phonetic: "Privet", en: "Hi / Halo (Akrab)", cat: "greetings", exRu: "Привет, Миша!", exEn: "Hi, Misha!" },
-      { ru: "Спасибо", phonetic: "Spasibo", en: "Thank you (Terima kasih)", cat: "greetings", exRu: "Большое спасибо!", exEn: "Thank you very much!" },
-      { ru: "Пожалуйста", phonetic: "Pozhaluysta", en: "Please / Sama-sama", cat: "greetings", exRu: "Чай, пожалуйста.", exEn: "Tea, please." },
-      { ru: "До свидания", phonetic: "Do svidaniya", en: "Goodbye (Sampai jumpa)", cat: "greetings", exRu: "До свидания, до завтра!", exEn: "Goodbye, see you tomorrow!" },
-      { ru: "Пока", phonetic: "Poka", en: "Bye (Santai)", cat: "greetings", exRu: "Пока, увидимся!", exEn: "Bye, see you later!" },
-      { ru: "Извините", phonetic: "Izvinite", en: "Excuse me / Permisi / Maaf", cat: "greetings", exRu: "Извините, где отель?", exEn: "Excuse me, where is the hotel?" },
-
-      // Essentials
-      { ru: "Да", phonetic: "Da", en: "Yes (Ya)", cat: "essentials", exRu: "Да, конечно!", exEn: "Yes, of course!" },
-      { ru: "Нет", phonetic: "Net", en: "No (Tidak)", cat: "essentials", exRu: "Нет, спасибо.", exEn: "No, thank you." },
-      { ru: "Хорошо", phonetic: "Khorosho", en: "Good / Bagus / Oke", cat: "essentials", exRu: "Всё очень хорошо!", exEn: "Everything is very good!" },
-      { ru: "Друг", phonetic: "Drug", en: "Friend (Sahabat)", cat: "essentials", exRu: "Он мой лучший друг.", exEn: "He is my best friend." },
-      { ru: "Дом", phonetic: "Dom", en: "House / Home (Rumah)", cat: "essentials", exRu: "Это мой дом.", exEn: "This is my home." },
-      { ru: "Книга", phonetic: "Kniga", en: "Book (Buku)", cat: "essentials", exRu: "Я читаю книгу.", exEn: "I am reading a book." },
-      { ru: "Вода", phonetic: "Voda", en: "Water (Air)", cat: "essentials", exRu: "Холодная вода.", exEn: "Cold water." },
-      { ru: "Хлеб", phonetic: "Khleb", en: "Bread (Roti)", cat: "essentials", exRu: "Вкусный хлеб.", exEn: "Delicious bread." },
-
-      // Numbers
-      { ru: "Один", phonetic: "Odin", en: "1 (One / Satu)", cat: "numbers", exRu: "Один билет, пожалуйста.", exEn: "One ticket, please." },
-      { ru: "Два", phonetic: "Dva", en: "2 (Two / Dua)", cat: "numbers", exRu: "Два чая.", exEn: "Two teas." },
-      { ru: "Три", phonetic: "Tri", en: "3 (Three / Tiga)", cat: "numbers", exRu: "Три медведя.", exEn: "Three bears." },
-      { ru: "Четыре", phonetic: "Chetyre", en: "4 (Four / Empat)", cat: "numbers", exRu: "Четыре сезона.", exEn: "Four seasons." },
-      { ru: "Пять", phonetic: "Pyat'", en: "5 (Five / Lima)", cat: "numbers", exRu: "Дай пять!", exEn: "High five!" },
-      { ru: "Десять", phonetic: "Desyat'", en: "10 (Ten / Sepuluh)", cat: "numbers", exRu: "Десять из десяти!", exEn: "Ten out of ten!" },
-
-      // Verbs
-      { ru: "Быть", phonetic: "Byt'", en: "To be (Berada/Ada)", cat: "verbs", exRu: "Быть или не быть?", exEn: "To be or not to be?" },
-      { ru: "Знать", phonetic: "Znat'", en: "To know (Mengetahui)", cat: "verbs", exRu: "Я знаю ответ.", exEn: "I know the answer." },
-      { ru: "Понимать", phonetic: "Ponimat'", en: "To understand (Paham)", cat: "verbs", exRu: "Я понимаю по-русски!", exEn: "I understand Russian!" },
-      { ru: "Говорить", phonetic: "Govorit'", en: "To speak / Bicara", cat: "verbs", exRu: "Вы говорите по-английски?", exEn: "Do you speak English?" },
-      { ru: "Любить", phonetic: "Lyubit'", en: "To love / Suka", cat: "verbs", exRu: "Я люблю горы.", exEn: "I love the mountains." },
-      { ru: "Хотеть", phonetic: "Khotet'", en: "To want (Mau)", cat: "verbs", exRu: "Я хочу горячий чай.", exEn: "I want hot tea." },
-
-      // Food & Mountain Nature
-      { ru: "Чай", phonetic: "Chay", en: "Tea (Teh Hangat)", cat: "food", exRu: "Горячий чай с лимоном.", exEn: "Hot tea with lemon." },
-      { ru: "Борщ", phonetic: "Borscht", en: "Borscht (Sup Bit Merah)", cat: "food", exRu: "Традиционный русский борщ.", exEn: "Traditional Russian borscht." },
-      { ru: "Пирожки", phonetic: "Pirozhki", en: "Pirozhki (Roti Isi Daging)", cat: "food", exRu: "Вкусные пирожки.", exEn: "Delicious pirozhki." },
-      { ru: "Гора", phonetic: "Gora", en: "Mountain (Gunung)", cat: "winter", exRu: "Высокая гора.", exEn: "A high mountain." },
-      { ru: "Шапка-ушанка", phonetic: "Shapka-ushanka", en: "Ushanka Hat (Topi Bulu Salju)", cat: "winter", exRu: "Тёплая шапка-ушанка.", exEn: "Warm ushanka hat." },
-      { ru: "Снег", phonetic: "Sneg", en: "Snow (Salju)", cat: "winter", exRu: "Белый снег на вершинах гор.", exEn: "White snow on the mountain peaks." },
-      { ru: "Матрёшка", phonetic: "Matryoshka", en: "Matryoshka Doll (Boneka Bersusun)", cat: "winter", exRu: "Русская матрёшка.", exEn: "Russian matryoshka." },
-      { ru: "Медведь", phonetic: "Medved'", en: "Bear (Beruang)", cat: "winter", exRu: "Медведь Миша в горах.", exEn: "Misha the bear in the mountains." }
-    ];
-
-    /* ========================================================
-       3. SENTENCE CONSTRUCTOR PUZZLES
-       ======================================================== */
-    const SENTENCE_PUZZLES = [
-      {
-        en: "I do not understand Russian",
-        target: ["Я", "не", "понимаю", "по-русски"],
-        distractors: ["знаю", "книга", "он"],
-        tip: "Aturan penyangkalan: letakkan 'не' tepat sebelum kata kerja 'понимаю'."
-      },
-      {
-        en: "My name is Ivan",
-        target: ["Меня", "зовут", "Иван"],
-        distractors: ["Я", "есть", "дом"],
-        tip: "Rumus perkenalan diri: 'Меня зовут [Nama]' (Harfiah: Me they call...)."
-      },
-      {
-        en: "This is hot tea",
-        target: ["Это", "горячий", "чай"],
-        distractors: ["есть", "вода", "он"],
-        tip: "Zero Copula: tidak perlu kata 'is' di masa sekarang. Cukup 'Это горячий чай'!"
-      },
-      {
-        en: "I love mountains",
-        target: ["Я", "люблю", "горы"],
-        distractors: ["не", "где", "чай"],
-        tip: "Susunan kata standar: Subjek (Я) + Kata Kerja (люблю) + Objek (горы)."
-      },
-      {
-        en: "Where is the hotel?",
-        target: ["Где", "находится", "отель"],
-        distractors: ["здесь", "что", "это"],
-        tip: "Kata tanya 'Где' (di mana) ditaruh di awal kalimat."
-      }
-    ];
-
-    /* ========================================================
-       4. AUDIO & SPEECH SYNTHESIS ENGINE
-       ======================================================== */
-    let currentVoice = null;
-    let speechRate = 0.85;
-    let sfxEnabled = true;
-    let audioCtx = null;
-
-    function initSpeechEngine() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.onvoiceschanged = loadVoicesList;
-        loadVoicesList();
-      }
-    }
-
-    function loadVoicesList() {
-      if (!('speechSynthesis' in window)) return;
-      const voices = window.speechSynthesis.getVoices();
-      const ruVoices = voices.filter(v => v.lang.startsWith('ru') || v.lang.includes('RU'));
-
-      const sel = document.getElementById('voice-dropdown');
-      if (sel) {
-        sel.innerHTML = '<option value="">Otomatis (Rekomendasi Browser)</option>';
-        ruVoices.forEach(v => {
-          const opt = document.createElement('option');
-          opt.value = v.name;
-          opt.textContent = `${v.name} (${v.lang})`;
-          sel.appendChild(opt);
-        });
-      }
-
-      if (ruVoices.length > 0 && !currentVoice) {
-        currentVoice = ruVoices.find(v => v.name.toLowerCase().includes('google') || v.name.toLowerCase().includes('irina') || v.name.toLowerCase().includes('pavel')) || ruVoices[0];
-      }
-    }
-
-    function updateSelectedVoice(name) {
-      if (!name) {
-        currentVoice = null;
-        loadVoicesList();
-        return;
-      }
-      const voices = window.speechSynthesis.getVoices();
-      currentVoice = voices.find(v => v.name === name) || null;
-    }
-
-    function adjustSpeechSpeed(val) {
-      speechRate = parseFloat(val);
-      document.getElementById('speed-indicator').textContent = speechRate.toFixed(2) + 'x';
-    }
-
-    function playRussianSpeech(text, btnElement = null) {
-      if (!('speechSynthesis' in window)) {
-        alert("Browser Anda belum mendukung Web Speech API.");
-        return;
-      }
-
-      window.speechSynthesis.cancel();
-
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'ru-RU';
-      utter.rate = speechRate;
-      utter.pitch = 1.05;
-
-      if (currentVoice) utter.voice = currentVoice;
-
-      const misha = document.getElementById('misha-svg');
-      if (misha) {
-        misha.classList.add('dancing');
-        utter.onend = () => misha.classList.remove('dancing');
-        utter.onerror = () => misha.classList.remove('dancing');
-      }
-
-      window.speechSynthesis.speak(utter);
-    }
-
-    /* Web Audio API Synthesizer (Balalaika folk tone) */
-    function getAudioContext() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      return audioCtx;
-    }
-
-    function playChime(type) {
-      if (!sfxEnabled) return;
-      try {
-        const ctx = getAudioContext();
-        if (ctx.state === 'suspended') ctx.resume();
-
-        const now = ctx.currentTime;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-
-        if (type === 'correct') {
-          // Cheerful Russian Balalaika / Korobeiniki folk arpeggio
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(659.25, now);       // E5
-          osc.frequency.setValueAtTime(493.88, now + 0.08); // B4
-          osc.frequency.setValueAtTime(523.25, now + 0.16); // C5
-          osc.frequency.setValueAtTime(587.33, now + 0.24); // D5
-          osc.frequency.setValueAtTime(659.25, now + 0.32); // E5
-          gain.gain.setValueAtTime(0.22, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
-          osc.start(now);
-          osc.stop(now + 0.55);
-        } else if (type === 'wrong') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(320, now);
-          osc.frequency.exponentialRampToValueAtTime(140, now + 0.25);
-          gain.gain.setValueAtTime(0.25, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-          osc.start(now);
-          osc.stop(now + 0.3);
-        } else if (type === 'pop') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(800, now);
-          gain.gain.setValueAtTime(0.06, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-          osc.start(now);
-          osc.stop(now + 0.08);
-        }
-      } catch (e) {
-        console.warn(e);
-      }
-    }
-
-    function toggleAudioSFX() {
-      sfxEnabled = !sfxEnabled;
-      const b = document.getElementById('btn-toggle-sfx');
-      b.textContent = sfxEnabled ? "🎵 Musik & Efek Suara: AKTIF" : "🔇 Musik & Efek Suara: MATI";
-      playChime('pop');
-    }
-
-    function openAudioSettings() {
-      document.getElementById('audio-settings-modal').classList.add('active');
-    }
-
-    function closeAudioSettings() {
-      document.getElementById('audio-settings-modal').classList.remove('active');
-    }
-
-    function testSpeechPlayback() {
-      playRussianSpeech("Привет! Как дела? Я Мишка, поехали учить русский язык!");
-    }
-
-    function pokeMishaBear() {
-      playChime('correct');
-      const phrases = [
-        "Привет! Я Мишка! 🐾",
-        "Молодец! Kamu hebat sekali! ⭐",
-        "Горы прекрасны! Pegunungannya indah ya! 🏔️",
-        "Давай учиться! Ayo semangat belajar! 🚀",
-        "Чай с лимоном? Mau teh hangat? ☕"
-      ];
-      const randomMsg = phrases[Math.floor(Math.random() * phrases.length)];
-      document.getElementById('misha-speech-text').textContent = randomMsg;
-      playRussianSpeech(randomMsg.split('!')[0]);
-    }
-
-    /* ========================================================
-       5. PLAYER PROGRESS & GAMIFICATION HUD
-       ======================================================== */
-    let playerStats = {
-      xp: 0,
-      totalAnswered: 0,
-      correctCount: 0
-    };
-
-    function loadGameStats() {
-      const saved = localStorage.getItem('misha_mountain_stats');
-      if (saved) {
-        try { playerStats = JSON.parse(saved); } catch (e) {}
-      }
-      refreshStatsHUD();
-    }
-
-    function saveGameStats() {
-      localStorage.setItem('misha_mountain_stats', JSON.stringify(playerStats));
-    }
-
-    function addXP(points) {
-      playerStats.xp += points;
-      refreshStatsHUD();
-      saveGameStats();
-    }
-
-    function recordQuizAnswer(isRight) {
-      playerStats.totalAnswered++;
-      if (isRight) playerStats.correctCount++;
-      refreshStatsHUD();
-      saveGameStats();
-    }
-
-    function refreshStatsHUD() {
-      document.getElementById('hud-xp').textContent = playerStats.xp + ' XP';
-      const acc = playerStats.totalAnswered > 0 
-        ? Math.round((playerStats.correctCount / playerStats.totalAnswered) * 100) 
-        : 100;
-      document.getElementById('hud-acc').textContent = acc + '%';
-
-      let rank = "Новичок (Novice)";
-      if (playerStats.xp >= 600) rank = "Царь Языка (Tsar 👑)";
-      else if (playerStats.xp >= 350) rank = "Мастер (Master 🐻)";
-      else if (playerStats.xp >= 150) rank = "Знаток (Expert ⭐)";
-      else if (playerStats.xp >= 50) rank = "Грамотей (Scholar 🪆)";
-      document.getElementById('hud-title').textContent = rank;
-    }
-
-    /* ========================================================
-       6. NAVIGATION TABS
-       ======================================================== */
-    function switchPane(tabKey) {
-      playChime('pop');
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-
-      const activeBtn = document.getElementById(`tab-btn-${tabKey}`);
-      const activePane = document.getElementById(`pane-${tabKey}`);
-      if (activeBtn) activeBtn.classList.add('active');
-      if (activePane) activePane.classList.add('active');
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /* ========================================================
-       7. MODULE 1: ALPHABET RENDERING & INTERACTION
-       ======================================================== */
-    function renderAlphabet(letters) {
-      const grid = document.getElementById('alphabet-grid');
-      grid.innerHTML = '';
-
-      letters.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'letter-card';
-        card.onclick = (e) => {
-          if (e.target.closest('.speaker-btn')) return;
-          playRussianSpeech(item.char.split(' ')[0]);
-        };
-
-        const tagClass = item.type === 'vowel' ? 'tag-vowel' : (item.type === 'consonant' ? 'tag-consonant' : 'tag-sign');
-        const tagText = item.type === 'vowel' ? 'Vokal' : (item.type === 'consonant' ? 'Konsonan' : 'Tanda');
-
-        card.innerHTML = `
-          <span class="letter-tag ${tagClass}">${tagText}</span>
-          <div class="cyrillic-char">${item.char}</div>
-          <div class="letter-name">${item.name}</div>
-          <div class="letter-approx">${item.sound}</div>
-          <div class="sample-box">
-            <div class="sample-ru">${item.example}</div>
-            <div class="sample-en">${item.exampleEn}</div>
-          </div>
-          <button class="speaker-btn" title="Dengar lafal" onclick="event.stopPropagation(); playRussianSpeech('${item.example}')">
-            🔊
-          </button>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function filterAlphabetCards(type, btn) {
-      playChime('pop');
-      document.querySelectorAll('.controls-panel .pill-btn').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-
-      if (type === 'all') {
-        renderAlphabet(RUSSIAN_ALPHABET);
-      } else {
-        renderAlphabet(RUSSIAN_ALPHABET.filter(i => i.type === type));
-      }
-    }
-
-    function searchAlphaCards(query) {
-      const q = query.toLowerCase().trim();
-      const filtered = RUSSIAN_ALPHABET.filter(l => 
-        l.char.toLowerCase().includes(q) ||
-        l.name.toLowerCase().includes(q) ||
-        l.sound.toLowerCase().includes(q) ||
-        l.example.toLowerCase().includes(q) ||
-        l.exampleEn.toLowerCase().includes(q)
-      );
-      renderAlphabet(filtered);
-    }
-
-    function playAllVowelsAudio() {
-      const vowels = RUSSIAN_ALPHABET.filter(l => l.type === 'vowel').map(l => l.char.split(' ')[0]).join(', ');
-      playRussianSpeech("Гласные буквы: " + vowels);
-    }
-
-    /* ========================================================
-       8. MODULE 2: VOCABULARY CARDS
-       ======================================================== */
-    function renderVocab(items) {
-      const grid = document.getElementById('vocab-grid');
-      grid.innerHTML = '';
-
-      items.forEach(v => {
-        const card = document.createElement('div');
-        card.className = 'vocab-card';
-        card.innerHTML = `
-          <div>
-            <div class="vocab-head">
-              <div>
-                <div class="vocab-ru-word">${v.ru}</div>
-                <div class="vocab-phonetics">${v.phonetic}</div>
-              </div>
-              <button class="speaker-btn" title="Dengarkan kata" onclick="playRussianSpeech('${v.ru}')">
-                🔊
-              </button>
-            </div>
-            <div class="vocab-en-badge">➔ ${v.en}</div>
-          </div>
-          <div class="vocab-ex-box">
-            <div class="ex-ru">
-              <span>${v.exRu}</span>
-              <button style="background:none; border:none; color:var(--ru-red); cursor:pointer; font-size:1rem;" title="Dengar kalimat" onclick="playRussianSpeech('${v.exRu}')">
-                ▶
-              </button>
-            </div>
-            <div class="ex-en">${v.exEn}</div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function filterVocabCards(cat, btn) {
-      playChime('pop');
-      document.querySelectorAll('#vocab-pills .pill-btn').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-
-      if (cat === 'all') {
-        renderVocab(RUSSIAN_VOCAB);
-      } else {
-        renderVocab(RUSSIAN_VOCAB.filter(v => v.cat === cat));
-      }
-    }
-
-    function searchVocabCards(query) {
-      const q = query.toLowerCase().trim();
-      const filtered = RUSSIAN_VOCAB.filter(v => 
-        v.ru.toLowerCase().includes(q) ||
-        v.phonetic.toLowerCase().includes(q) ||
-        v.en.toLowerCase().includes(q) ||
-        v.exRu.toLowerCase().includes(q)
-      );
-      renderVocab(filtered);
-    }
-
-    /* ========================================================
-       9. MODULE 3: SENTENCE CONSTRUCTOR PUZZLE
-       ======================================================== */
-    let currentPuzzleIndex = 0;
-    let selectedWordChips = [];
-
-    function initSentencePuzzle(idx) {
-      currentPuzzleIndex = idx;
-      selectedWordChips = [];
-      const puzzle = SENTENCE_PUZZLES[idx];
-
-      document.getElementById('target-phrase-label').textContent = `"${puzzle.en}"`;
-      document.getElementById('constructor-feedback').innerHTML = '';
-      document.getElementById('btn-check-puzzle').style.display = 'inline-flex';
-      document.getElementById('btn-next-puzzle').style.display = 'none';
-
-      const pool = [...puzzle.target, ...puzzle.distractors];
-      shuffle(pool);
-
-      renderWordBank(pool);
-      updateTrayDisplay();
-    }
-
-    function renderWordBank(words) {
-      const bank = document.getElementById('words-bank');
-      bank.innerHTML = '';
-
-      words.forEach((w, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'word-chip';
-        btn.id = `chip-${i}`;
-        btn.textContent = w;
-        btn.onclick = () => selectWord(w, btn);
-        bank.appendChild(btn);
-      });
-    }
-
-    function selectWord(word, btnElem) {
-      playChime('pop');
-      selectedWordChips.push({ text: word, btn: btnElem });
-      btnElem.classList.add('selected');
-      updateTrayDisplay();
-    }
-
-    function removeTrayChip(index) {
-      playChime('pop');
-      const removed = selectedWordChips.splice(index, 1)[0];
-      if (removed && removed.btn) {
-        removed.btn.classList.remove('selected');
-      }
-      updateTrayDisplay();
-    }
-
-    function resetSentencePuzzle() {
-      selectedWordChips.forEach(w => {
-        if (w.btn) w.btn.classList.remove('selected');
-      });
-      selectedWordChips = [];
-      updateTrayDisplay();
-      document.getElementById('constructor-feedback').innerHTML = '';
-    }
-
-    function updateTrayDisplay() {
-      const tray = document.getElementById('words-tray');
-      tray.innerHTML = '';
-
-      if (selectedWordChips.length === 0) {
-        tray.classList.remove('active');
-        tray.innerHTML = '<span class="tray-placeholder">Klik keping kata di bawah untuk meletakkannya di sini...</span>';
-        return;
-      }
-
-      tray.classList.add('active');
-      selectedWordChips.forEach((item, idx) => {
-        const chip = document.createElement('button');
-        chip.className = 'word-in-tray';
-        chip.innerHTML = `${item.text} <span style="font-size:0.75rem; opacity:0.8;">✕</span>`;
-        chip.title = "Klik untuk hapus";
-        chip.onclick = () => removeTrayChip(idx);
-        tray.appendChild(chip);
-      });
-    }
-
-    function checkSentencePuzzle() {
-      const puzzle = SENTENCE_PUZZLES[currentPuzzleIndex];
-      const userText = selectedWordChips.map(w => w.text);
-      const isRight = userText.length === puzzle.target.length &&
-        userText.every((val, i) => val === puzzle.target[i]);
-
-      const fb = document.getElementById('constructor-feedback');
-
-      if (isRight) {
-        playChime('correct');
-        const fullRu = puzzle.target.join(' ');
-        fb.innerHTML = `
-          <span style="color:#16a34a;">🎉 Отлично! Kalimat kamu tepat 100%!</span>
-          <button class="speaker-btn" style="width:30px; height:30px; font-size:0.8rem;" onclick="playRussianSpeech('${fullRu}')">🔊</button>
-        `;
-        playRussianSpeech(fullRu);
-        addXP(30);
-
-        document.getElementById('btn-check-puzzle').style.display = 'none';
-        document.getElementById('btn-next-puzzle').style.display = 'inline-flex';
-      } else {
-        playChime('wrong');
-        fb.innerHTML = `
-          <span style="color:#dc2626;">❄️ Belum tepat nih. Petunjuk: ${puzzle.tip}</span>
-        `;
-      }
-    }
-
-    function loadNextSentencePuzzle() {
-      let next = currentPuzzleIndex + 1;
-      if (next >= SENTENCE_PUZZLES.length) next = 0;
-      initSentencePuzzle(next);
-    }
-
-    /* ========================================================
-       10. MODULE 4: QUIZ ARENA
-       ======================================================== */
-    let quizQuestions = [];
-    let currentQuizIndex = 0;
-    let totalScore = 0;
-    let activeQuizType = 'alphabet';
-
-    function startQuickQuiz(mode) {
-      switchPane('quiz');
-      startQuizMode(mode);
-    }
-
-    function startQuizMode(mode) {
-      playChime('pop');
-      activeQuizType = mode;
-      currentQuizIndex = 0;
-      totalScore = 0;
-
-      buildQuestions(mode);
-
-      document.getElementById('quiz-hub-grid').style.display = 'none';
-      document.getElementById('quiz-victory-box').style.display = 'none';
-      document.getElementById('quiz-player-arena').classList.add('active');
-
-      renderQuizQuestion();
-    }
-
-    function buildQuestions(mode) {
-      quizQuestions = [];
-
-      if (mode === 'alphabet') {
-        const pool = [...RUSSIAN_ALPHABET];
-        shuffle(pool);
-        const chosen = pool.slice(0, 10);
-
-        chosen.forEach(item => {
-          const others = RUSSIAN_ALPHABET.filter(l => l.char !== item.char);
-          shuffle(others);
-
-          const isListening = Math.random() > 0.45;
-          if (isListening) {
-            const opts = [item.char, others[0].char, others[1].char, others[2].char];
-            shuffle(opts);
-            quizQuestions.push({
-              typeTag: "🎧 Tes Pendengaran Bersama Misha",
-              cue: "🔊",
-              title: "Dengarkan suara Misha! Manakah huruf Cyrillic yang diucapkan?",
-              audio: item.example,
-              options: opts,
-              correct: item.char,
-              explanation: `Misha melafalkan kata "${item.example}" (${item.exampleEn}), diawali oleh huruf ${item.char}.`
-            });
-          } else {
-            const opts = [item.sound, others[0].sound, others[1].sound, others[2].sound];
-            shuffle(opts);
-            quizQuestions.push({
-              typeTag: "🔤 Tebak Bunyi Huruf",
-              cue: item.char,
-              title: `Huruf Cyrillic "${item.char.split(' ')[0]}" ini berbunyi seperti apa?`,
-              audio: item.char.split(' ')[0],
-              options: opts,
-              correct: item.sound,
-              explanation: `Huruf ${item.char} (${item.name}) berbunyi ${item.sound}. Contoh kata: ${item.example} (${item.exampleEn}).`
-            });
-          }
-        });
-      } else if (mode === 'vocab') {
-        const pool = [...RUSSIAN_VOCAB];
-        shuffle(pool);
-        const chosen = pool.slice(0, 10);
-
-        chosen.forEach(item => {
-          const others = RUSSIAN_VOCAB.filter(v => v.ru !== item.ru);
-          shuffle(others);
-
-          const isRuToEn = Math.random() > 0.4;
-          if (isRuToEn) {
-            const opts = [item.en, others[0].en, others[1].en, others[2].en];
-            shuffle(opts);
-            quizQuestions.push({
-              typeTag: "📖 Tebak Terjemahan Kata",
-              cue: item.ru,
-              title: `Apa arti bahasa Inggris dari kata "${item.ru}" [${item.phonetic}]?`,
-              audio: item.ru,
-              options: opts,
-              correct: item.en,
-              explanation: `"${item.ru}" berarti "${item.en}". Contoh: "${item.exRu}".`
-            });
-          } else {
-            const opts = [item.ru, others[0].ru, others[1].ru, others[2].ru];
-            shuffle(opts);
-            quizQuestions.push({
-              typeTag: "🏔️ Pilih Kata Bahasa Rusia",
-              cue: `"${item.en}"`,
-              title: `Manakah kata bahasa Rusia untuk "${item.en}"?`,
-              audio: item.ru,
-              options: opts,
-              correct: item.ru,
-              explanation: `Kata bahasa Rusia untuk "${item.en}" adalah "${item.ru}" [${item.phonetic}].`
-            });
-          }
-        });
-      } else if (mode === 'grammar') {
-        quizQuestions = [
-          {
-            typeTag: "🚂 Tata Bahasa • Aturan 'To Be'",
-            cue: "Я студент",
-            title: "Mengapa pada kalimat 'Я студент' (I am a student) tidak ada kata kerja 'am/is'?",
-            audio: "Я студент",
-            options: [
-              "Bahasa Rusia masa kini (present) meniadakan kata kerja 'to be' (Zero Copula)",
-              "Karena kalimat di atas salah susunan",
-              "Kata kerja 'to be' hanya digunakan saat musim panas",
-              "Karena kata 'студент' sudah merangkap kata kerja"
-            ],
-            correct: "Bahasa Rusia masa kini (present) meniadakan kata kerja 'to be' (Zero Copula)",
-            explanation: "Di masa kini, bahasa Rusia meniadakan kata kerja 'быть' (to be). Jadi 'Я студент' secara harfiah adalah 'Saya murid'."
-          },
-          {
-            typeTag: "🚂 Tata Bahasa • Kalimat Negatif",
-            cue: "Я понимаю ➔ ?",
-            title: "Bagaimana cara mengubah 'Я понимаю' (I understand) menjadi 'I don't understand'?",
-            audio: "Я не понимаю",
-            options: [
-              "Я не понимаю",
-              "Я нет понимаю",
-              "Не я понимаю",
-              "Я понимаю не"
-            ],
-            correct: "Я не понимаю",
-            explanation: "Partikel 'не' ditaruh tepat di depan kata kerja yang ingin disangkal."
-          },
-          {
-            typeTag: "🚂 Tata Bahasa • Perkenalan",
-            cue: "Меня зовут...",
-            title: "Apa arti harfiah dari kalimat perkenalan 'Меня зовут...'?",
-            audio: "Меня зовут",
-            options: [
-              "Orang-orang memanggilku... (They call me...)",
-              "Nama saya adalah...",
-              "Saya seorang kaisar...",
-              "Tolong panggil saya nanti..."
-            ],
-            correct: "Orang-orang memanggilku... (They call me...)",
-            explanation: "'Меня зовут' menggunakan bentuk jamak orang ketiga tanpa subjek: 'Me they call...'."
-          },
-          {
-            typeTag: "🚂 Tata Bahasa • Kepemilikan",
-            cue: "У меня есть...",
-            title: "Konstruksi 'У меня есть книга' digunakan untuk menyatakan:",
-            audio: "У меня есть книга",
-            options: [
-              "Kepemilikan: 'Saya punya buku' (I have a book)",
-              "Lokasi: 'Saya ada di toko buku'",
-              "Pertanyaan: 'Di mana bukuku?'",
-              "Penyangkalan: 'Saya tidak suka buku'"
-            ],
-            correct: "Kepemilikan: 'Saya punya buku' (I have a book)",
-            explanation: "'У меня есть' secara harfiah berarti 'Pada saya ada...' untuk mengungkapkan kepemilikan 'I have'."
-          }
-        ];
-      } else if (mode === 'master') {
-        buildQuestions('alphabet');
-        const qA = quizQuestions.slice(0, 5);
-        buildQuestions('vocab');
-        const qV = quizQuestions.slice(0, 5);
-        buildQuestions('grammar');
-        const qG = quizQuestions.slice(0, 4);
-        quizQuestions = [...qA, ...qV, ...qG];
-        shuffle(quizQuestions);
-      }
-    }
-
-    function renderQuizQuestion() {
-      const q = quizQuestions[currentQuizIndex];
-      const total = quizQuestions.length;
-
-      document.getElementById('quiz-progress-label').textContent = `Pertanyaan ${currentQuizIndex + 1} dari ${total}`;
-      document.getElementById('quiz-type-tag').textContent = q.typeTag;
-      document.getElementById('quiz-char-cue').textContent = q.cue;
-      document.getElementById('quiz-q-title').textContent = q.title;
-
-      const percent = (currentQuizIndex / total) * 100;
-      document.getElementById('quiz-bar-fill').style.width = `${percent}%`;
-
-      const audioBtnHolder = document.getElementById('quiz-audio-btn-holder');
-      audioBtnHolder.innerHTML = '';
-      if (q.audio) {
-        const aBtn = document.createElement('button');
-        aBtn.className = 'btn-outline-ice';
-        aBtn.style.padding = '0.5rem 1.2rem';
-        aBtn.innerHTML = '🔊 Putar Suara Pelafalan';
-        aBtn.onclick = () => playRussianSpeech(q.audio);
-        audioBtnHolder.appendChild(aBtn);
-
-        if (q.cue === '🔊') {
-          setTimeout(() => playRussianSpeech(q.audio), 350);
-        }
-      }
-
-      const optGrid = document.getElementById('quiz-options-grid');
-      optGrid.innerHTML = '';
-
-      q.options.forEach((optText, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'quiz-option-btn';
-        btn.innerHTML = `<span>${optText}</span> <span style="opacity:0.4; font-size:0.9rem;">[${['A','B','C','D'][i]}]</span>`;
-        btn.onclick = () => chooseQuizAnswer(btn, optText, q);
-        optGrid.appendChild(btn);
-      });
-
-      document.getElementById('quiz-explanation-box').style.display = 'none';
-      document.getElementById('btn-next-quiz-q').style.display = 'none';
-    }
-
-    function chooseQuizAnswer(selectedBtn, answerText, qObj) {
-      const allBtns = document.querySelectorAll('.quiz-option-btn');
-      allBtns.forEach(b => b.disabled = true);
-
-      const isRight = answerText === qObj.correct;
-      recordQuizAnswer(isRight);
-
-      const expBox = document.getElementById('quiz-explanation-box');
-      expBox.style.display = 'block';
-
-      if (isRight) {
-        playChime('correct');
-        selectedBtn.classList.add('correct');
-        totalScore++;
-        addXP(20);
-        expBox.style.background = "#dcfce7";
-        expBox.style.border = "2px solid #22c55e";
-        expBox.innerHTML = `<span style="color:#166534; font-size:1.15rem;">🎉 Benar Sekali! Молодец!</span> <p style="margin-top:4px; font-weight:500; color:#14532d;">${qObj.explanation}</p>`;
-      } else {
-        playChime('wrong');
-        selectedBtn.classList.add('wrong');
-        allBtns.forEach(b => {
-          if (b.innerText.includes(qObj.correct)) {
-            b.classList.add('correct');
-          }
-        });
-        expBox.style.background = "#fee2e2";
-        expBox.style.border = "2px solid #ef4444";
-        expBox.innerHTML = `<span style="color:#991b1b; font-size:1.15rem;">❄️ Oops, kurang tepat!</span> <p style="margin-top:4px; font-weight:500; color:#7f1d1d;">Jawaban yang benar: <strong>${qObj.correct}</strong>.<br>${qObj.explanation}</p>`;
-      }
-
-      document.getElementById('btn-next-quiz-q').style.display = 'inline-flex';
-    }
-
-    function nextQuizQuestion() {
-      currentQuizIndex++;
-      if (currentQuizIndex < quizQuestions.length) {
-        renderQuizQuestion();
-      } else {
-        showVictoryScreen();
-      }
-    }
-
-    function showVictoryScreen() {
-      document.getElementById('quiz-player-arena').classList.remove('active');
-      const victoryBox = document.getElementById('quiz-victory-box');
-      victoryBox.style.display = 'block';
-
-      const total = quizQuestions.length;
-      const score = totalScore;
-      const pct = Math.round((score / total) * 100);
-      const earnedXP = score * 25;
-      addXP(earnedXP);
-
-      document.getElementById('victory-score-num').textContent = `${score}/${total}`;
-      document.getElementById('victory-xp-num').textContent = `+${earnedXP} XP`;
-
-      const bBadge = document.getElementById('victory-badge');
-      const bTitle = document.getElementById('victory-heading');
-      const bDesc = document.getElementById('victory-subtitle');
-
-      if (pct >= 90) {
-        bBadge.textContent = "👑";
-        bTitle.textContent = "Превосходно! Sempurna!";
-        bDesc.textContent = "Misha sangat kagum! Kamu menguasai pelajaran ini bagaikan Tsar Rusia sejati!";
-        playChime('correct');
-      } else if (pct >= 60) {
-        bBadge.textContent = "🥇";
-        bTitle.textContent = "Отлично! Hebat Sekali!";
-        bDesc.textContent = "Hasil yang luar biasa! Kamu sudah paham banyak huruf dan kosakata Rusia.";
-      } else {
-        bBadge.textContent = "🥉";
-        bTitle.textContent = "Хорошо! Usaha Bagus!";
-        bDesc.textContent = "Jangan menyerah! Ulangi materi alfabet dan kosakata bersama Misha ya!";
-      }
-    }
-
-    function exitQuizArena() {
-      document.getElementById('quiz-player-arena').classList.remove('active');
-      document.getElementById('quiz-victory-box').style.display = 'none';
-      document.getElementById('quiz-hub-grid').style.display = 'grid';
-    }
-
-    function retryActiveQuiz() {
-      startQuizMode(activeQuizType);
-    }
-
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    /* ========================================================
-       11. INITIALIZATION ON PAGE LOAD
-       ======================================================== */
-    window.addEventListener('DOMContentLoaded', () => {
-      initSpeechEngine();
-      loadGameStats();
-      renderAlphabet(RUSSIAN_ALPHABET);
-      renderVocab(RUSSIAN_VOCAB);
-      initSentencePuzzle(0);
-    });
-  </script>
 </body>
 </html>
