@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reef Guardian | Ocean Ecosystem & Coral Reef Sanctuary</title>
+  <meta name="description" content="Save endangered coral reefs, protect delicate marine species, counteract warming oceans and plastic pollution, and explore fascinating marine biology fun facts.">
+  <meta name="theme-color" content="#010b18">
+
+  <!-- Google Fonts: Space Grotesk, Montserrat, and Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/reef.css">
+
+  <!-- Firebase SDK Import Map for native ESM browser imports -->
+  <script type="importmap">
+  {
+    "imports": {
+      "firebase/app": "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js",
+      "firebase/firestore": "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js",
+      "firebase/analytics": "https://www.gstatic.com/firebasejs/11.4.0/firebase-analytics.js"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <div id="app-container">
+    <!-- Living Canvas Viewport -->
+    <div id="canvas-wrapper">
+      <canvas id="reef-canvas"></canvas>
+    </div>
+
+    <!-- TOP HUD: Vitals, Resources, and Controls -->
+    <header class="top-hud-bar">
+      <!-- Brand -->
+      <div class="brand-section">
+        <div class="brand-logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-cyan);"><path d="M12 22v-8"/><path d="M9 14c-2 0-3-1-3-3 0-3 3-3 3-6"/><path d="M15 14c2 0 3-1 3-3 0-3-3-3-3-6"/><path d="M8 8c0-3 4-6 4-6s4 3 4 6"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>REEF GUARDIAN</h1>
+          <div class="brand-tagline">Oceanic Ecosystem Telemetry & Conservation</div>
+        </div>
+      </div>
+
+      <!-- Environmental Vitals Dashboard -->
+      <div class="vitals-strip">
+        <!-- Temperature -->
+        <div class="vital-item" title="Water Temperature (°C). High heat (>30.2°C) causes coral bleaching!">
+          <div class="vital-header">
+            <span>TEMP</span>
+            <span><strong class="vital-value" id="temp-value">27.2°C</strong><span id="temp-warning" class="vital-warning-icon" style="display: none;">!</span></span>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-temp" id="temp-bar" style="width: 48%;"></div></div>
+        </div>
+
+        <!-- Water Purity -->
+        <div class="vital-item" title="Water Purity (%). Degraded by plastic debris and runoff. Boosted by Giant Clams and cleanups.">
+          <div class="vital-header">
+            <span>PURITY</span>
+            <strong class="vital-value" id="purity-value">68%</strong>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-purity" id="purity-bar" style="width: 68%;"></div></div>
+        </div>
+
+        <!-- Coral Cover -->
+        <div class="vital-item" title="Living Coral Cover (%). The foundation of reef shelter. Restored by transplanting nursery fragments.">
+          <div class="vital-header">
+            <span>CANOPY</span>
+            <strong class="vital-value" id="coral-value">42%</strong>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-coral" id="coral-bar" style="width: 42%;"></div></div>
+        </div>
+
+        <!-- Algae Balance -->
+        <div class="vital-item" title="Macro-Algae (%). High algae suffocates corals. Controlled naturally by Parrotfish and Blue Tangs!">
+          <div class="vital-header">
+            <span>ALGAE</span>
+            <strong class="vital-value" id="algae-value">18%</strong>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-algae" id="algae-bar" style="width: 18%;"></div></div>
+        </div>
+
+        <!-- MPA Protection -->
+        <div class="vital-item" title="Marine Protected Area (MPA) Security. Protects against illegal trawling and dynamite poaching.">
+          <div class="vital-header">
+            <span>MPA SEC</span>
+            <strong class="vital-value" id="mpa-value">60%</strong>
+          </div>
+          <div class="vital-track"><div class="vital-fill fill-mpa" id="mpa-bar" style="width: 60%;"></div></div>
+        </div>
+      </div>
+
+      <!-- Limited Resources Strip -->
+      <div class="resources-strip">
+        <!-- Eco-Funds -->
+        <div class="res-chip" title="Eco-Funds ($): Earned from biodiversity grants and eco-tourism. Used for infrastructure & technology.">
+          <span class="res-icon" style="color: var(--accent-emerald); font-weight: 700; font-family: var(--font-data);">$</span>
+          <div class="res-info">
+            <span class="res-label">Funds</span>
+            <span class="res-value" id="funds-value">$650</span>
+          </div>
+        </div>
+
+        <!-- Volunteer Energy -->
+        <div class="res-chip" title="Marine Volunteer Energy: Recharges over time. Spent on cleanups, outplanting, and ranger patrols.">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-amber);"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <div class="res-info">
+            <span class="res-label">Energy</span>
+            <span class="res-value" id="energy-value">60 / 100</span>
+            <div class="res-mini-bar"><div class="res-mini-fill fill-energy" id="energy-bar" style="width: 60%;"></div></div>
+          </div>
+        </div>
+
+        <!-- Nursery Coral Fragments -->
+        <div class="res-chip" title="Living Coral Nursery Fragments: Grown in nursery tanks, outplanted to restore bleached reefs.">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent-coral);"><path d="M12 22v-7"/><path d="M9 15c-2 0-3-1-3-3 0-2 2-2 2-4"/><path d="M15 15c2 0 3-1 3-3 0-2-2-2-2-4"/></svg>
+          <div class="res-info">
+            <span class="res-label">Fragments</span>
+            <span class="res-value" id="fragments-value">35</span>
+          </div>
+        </div>
+
+        <!-- Clean Solar Battery -->
+        <div class="res-chip" title="Clean Solar Battery: Powers upwelling pumps, sonar buoys, and autonomous debris traps.">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: #f59e0b;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          <div class="res-info">
+            <span class="res-label">Solar</span>
+            <span class="res-value" id="solar-value">85%</span>
+            <div class="res-mini-bar"><div class="res-mini-fill fill-solar" id="solar-bar" style="width: 85%;"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Control Group -->
+      <div class="hud-controls-group">
+        <button class="hud-btn" id="btn-pause" title="Pause simulation [Space]">Pause</button>
+        <button class="hud-btn active" id="btn-play" title="Normal Speed [1]">1x</button>
+        <button class="hud-btn" id="btn-fast" title="Fast Forward [2]">2x</button>
+        <button class="hud-btn" id="btn-zen" title="Toggle Peaceful Zen Sanctuary Mode">Zen Mode</button>
+        <button class="hud-btn" id="btn-audio" title="Toggle Procedural Ocean Soundscape [M]">Audio: On</button>
+        <button class="hud-btn" id="btn-reefdex" title="Open Marine Encyclopedia [R]">Field Catalog</button>
+        <button class="hud-btn" id="btn-leaderboard" title="View Global Conservation Leaderboard">🏆 Ranks</button>
+        <button class="hud-btn cloud-status-badge" id="btn-cloud" title="Firebase Cloud Sync & Guardian Profile">
+          <span class="cloud-status-dot" id="cloud-status-dot"></span>
+          <span id="cloud-btn-text">☁️ Cloud</span>
+        </button>
+        <button class="hud-btn" id="btn-guide" title="How to Play & Ocean Guide">Guide</button>
+      </div>
+    </header>
+
+    <!-- FLOATING SANCTUARY HEALTH SUMMARY (Top Left) -->
+    <aside class="sanctuary-badge-card">
+      <div class="sanctuary-badge-header">
+        <span class="sanctuary-title">Ecosystem Balance</span>
+        <span class="sanctuary-day-badge">DAY <span id="days-value">0</span></span>
+      </div>
+      <div class="biodiversity-row">
+        <span class="biodiversity-label">Biodiversity Index</span>
+        <span class="biodiversity-val" id="biodiversity-value">25%</span>
+      </div>
+      <div class="biodiversity-track">
+        <div class="biodiversity-fill" id="biodiversity-bar"></div>
+      </div>
+      <div class="species-thriving-row">
+        <span>Sustained Taxa:</span>
+        <strong id="species-count-value">4 / 16</strong>
+      </div>
+    </aside>
+
+    <!-- SPECIES SANCTUARY ROSTER (Right Drawer) -->
+    <aside class="species-drawer" id="species-drawer">
+      <div class="drawer-header">
+        <div>
+          <h3>Sanctuary Population</h3>
+          <span class="drawer-subtitle">Species Health & Ecological Equilibrium</span>
+        </div>
+      </div>
+      <div class="species-grid-scroll" id="species-grid">
+        <!-- Rendered dynamically by ReefUI -->
+      </div>
+    </aside>
+
+    <!-- BOTTOM ACTION DOCK (Conservation Station) -->
+    <nav class="action-dock-container">
+      <div class="action-dock">
+        <!-- 1. Cleanup Dive -->
+        <button class="action-btn" data-action="cleanup_dive" title="Mobilize volunteer divers to clear drifting plastics and ghost nets. [Hotkey: C]">
+          <span class="hotkey-hint">C</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
+          <span class="action-label">Debris Sweep</span>
+          <span class="action-cost-tag">15 Energy</span>
+        </button>
+
+        <!-- 2. Thermal Shade Nets -->
+        <button class="action-btn" data-action="deploy_shade" title="Deploy surface shade screens to lower water temp by -2.2°C for 45s during heatwaves! [Hotkey: S]">
+          <span class="hotkey-hint">S</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span class="action-label">Thermal Shading</span>
+          <span class="action-cost-tag">$220 Funds</span>
+        </button>
+
+        <!-- 3. Cold Upwelling Pump -->
+        <button class="action-btn" data-action="activate_upwelling" title="Circulate deep-trench cold ocean water to prevent catastrophic coral bleaching. [Hotkey: U]">
+          <span class="hotkey-hint">U</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/><path d="M12 8v4l3 3"/></svg>
+          <span class="action-label">Deep Upwelling</span>
+          <span class="action-cost-tag">$350 + 20 ☀️</span>
+        </button>
+
+        <!-- 4. Outplant Coral Fragments -->
+        <button class="action-btn" data-action="outplant_corals" title="Transplant 12 lab-grown coral fragments to rebuild damaged reef bommies. [Hotkey: O]">
+          <span class="hotkey-hint">O</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22v-8"/><path d="M9 14c-2 0-3-1-3-3 0-3 3-3 3-6"/><path d="M15 14c2 0 3-1 3-3 0-3-3-3-3-6"/></svg>
+          <span class="action-label">Outplant Corals</span>
+          <span class="action-cost-tag">12 Frags + 10 E</span>
+        </button>
+
+        <!-- 5. Introduce Giant Triton Snail -->
+        <button class="action-btn" data-action="introduce_triton" title="Release predatory Giant Triton snails to naturally hunt invasive Crown-of-Thorns Starfish.">
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8a4 4 0 1 0 4 4"/></svg>
+          <span class="action-label">Triton Bio-Control</span>
+          <span class="action-cost-tag">$300 Funds</span>
+        </button>
+
+        <!-- 6. MPA Ranger Patrol -->
+        <button class="action-btn" data-action="patrol_boat" title="Dispatch solar ranger patrol boat to banish illegal trawlers and protect marine animals. [Hotkey: P]">
+          <span class="hotkey-hint">P</span>
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span class="action-label">Ranger Patrol</span>
+          <span class="action-cost-tag">$200 + 12 E</span>
+        </button>
+
+        <!-- 7. Coral Nursery Propagation -->
+        <button class="action-btn" data-action="propagate_nursery" title="Cultivate 18 new resilient coral fragments in the marine laboratory tanks.">
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6"/><path d="M10 9h4"/><path d="M10 3v6l-4 9a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l-4-9V3"/></svg>
+          <span class="action-label">Lab Nursery</span>
+          <span class="action-cost-tag">$150 Funds</span>
+        </button>
+
+        <!-- 8. Macro-Algae Weeding Dive -->
+        <button class="action-btn" data-action="weed_algae" title="Strip away smothering green macro-algae when herbivorous fish counts are depleted.">
+          <svg class="action-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+          <span class="action-label">Algae Control</span>
+          <span class="action-cost-tag">12 Energy</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ==========================================================================
+       MODALS
+       ========================================================================== -->
+
+  <!-- 1. Species Detail & Fun Facts Modal -->
+  <div class="modal-backdrop" id="species-detail-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll" id="species-modal-content">
+        <!-- Injected via ReefUI.openSpeciesModal -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Dynamic Threat / Event Alert Modal -->
+  <div class="modal-backdrop" id="event-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll" id="event-modal-content">
+        <!-- Injected via ReefUI.showEventModal -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Reefdex Marine Biology Encyclopedia Modal -->
+  <div class="modal-backdrop" id="reefdex-modal">
+    <div class="modal-dialog modal-dialog-large">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll">
+        <h2 class="modal-title" style="margin-bottom: 4px;">📖 Reefdex: Marine Encyclopedia</h2>
+        <p class="modal-subtitle" style="margin-bottom: 16px;">Discover ecological roles, mutualistic alliances, and verified marine biology facts.</p>
+        <div id="reefdex-entries">
+          <!-- Injected via ReefUI.renderReefdexModal -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. How to Play & Ocean Conservation Guide Modal -->
+  <div class="modal-backdrop" id="guide-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll">
+        <h2 class="modal-title">🌊 How to Be a Reef Guardian</h2>
+        <p class="modal-subtitle">Your mission isn't chasing a high score—it is keeping living species alive and nurturing ecosystem equilibrium!</p>
+
+        <div class="species-role-box" style="margin-top: 10px;">
+          <h4>🎯 The Core Objective</h4>
+          <p>Maintain balanced water chemistry and coral coverage so baseline pioneer species thrive. As your <strong>Biodiversity Index</strong> rises, more delicate, keystone, and endangered species migrate into your sanctuary!</p>
+        </div>
+
+        <div class="fun-facts-section">
+          <h3>🎮 Essential Strategies:</h3>
+          <ul class="fun-facts-list">
+            <li><span class="bullet">🔥</span> <strong>Combating Marine Heatwaves:</strong> If water temp surpasses <strong>30.2°C</strong>, corals begin bleaching. Immediately deploy <em>Solar Shade Screens</em> or start <em>Cold Upwelling Pumps</em>.</li>
+            <li><span class="bullet">🗑️</span> <strong>Cleaning Plastic Pollution:</strong> Click drifting bottles and nets directly on canvas to earn immediate funds, or dispatch a <em>Volunteer Cleanup Dive</em>.</li>
+            <li><span class="bullet">⭐</span> <strong>Stopping Crown-of-Thorns Starfish (COTS):</strong> Click COTS directly to target-cull them, or reintroduce <em>Giant Triton Snails</em> for natural biological defense!</li>
+            <li><span class="bullet">🌿</span> <strong>Controlling Smothering Algae:</strong> Keep <em>Rainbow Parrotfish</em> and <em>Blue Tangs</em> healthy—their active grazing cleans bare rock so baby corals can settle!</li>
+            <li><span class="bullet">🛡️</span> <strong>Overfishing & Poachers:</strong> Maintain high MPA protection with <em>Ranger Patrols</em> to shield sharks and turtles from trawlers.</li>
+            <li><span class="bullet">🐬</span> <strong>Beneficial Allies:</strong> Giant Clams filter hundreds of liters of water daily, while Cleaner Wrasses run health clinics that boost disease immunity for all fish!</li>
+          </ul>
+        </div>
+
+        <div class="conservation-tip-box">
+          <strong>💡 Pro Tip:</strong> Click directly on swimming fish or turtles in the ocean at any time to open their live health card and read fascinating fun facts!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Firebase Cloud Save & Guardian Identity Modal -->
+  <div class="modal-backdrop" id="cloud-modal">
+    <div class="modal-dialog">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll">
+        <h2 class="modal-title">☁️ Firebase Cloud & Guardian Identity</h2>
+        <p class="modal-subtitle">Real-time cloud ecosystem synchronization powered by Google Firebase Firestore.</p>
+
+        <div class="cloud-profile-card">
+          <div class="cloud-avatar-badge">🛡️</div>
+          <div class="cloud-info-box">
+            <label class="cloud-field-label">Guardian Call-Sign:</label>
+            <div class="cloud-input-group">
+              <input type="text" id="guardian-name-input" class="cloud-input" maxlength="24" placeholder="Enter Call-Sign (e.g. Captain Coral)...">
+              <button id="btn-save-callsign" class="cloud-action-btn primary">Save Name</button>
+            </div>
+            <div class="cloud-meta-row">
+              <span id="cloud-connection-badge" class="cloud-status-chip online">🟢 Connecting...</span>
+              <span id="cloud-last-sync-text" class="cloud-sync-time">Last Synced: Checking...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cloud-actions-grid">
+          <div class="cloud-action-card">
+            <h4>💾 Cloud Sync</h4>
+            <p>Save active ecosystem vitals, unlocked species roster, and eco-funds directly to Cloud Firestore.</p>
+            <button id="btn-manual-cloud-save" class="cloud-action-btn primary">
+              <span>☁️ Sync to Cloud Now</span>
+            </button>
+          </div>
+
+          <div class="cloud-action-card">
+            <h4>📥 Cloud Restore</h4>
+            <p>Load the latest cloud save associated with this Guardian profile to this browser.</p>
+            <button id="btn-manual-cloud-load" class="cloud-action-btn secondary">
+              <span>📥 Restore from Cloud</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="cloud-telemetry-box">
+          <div class="cloud-telemetry-item">
+            <span class="label">Firebase Project:</span>
+            <strong class="val">game-13145</strong>
+          </div>
+          <div class="cloud-telemetry-item">
+            <span class="label">Database:</span>
+            <strong class="val">Cloud Firestore</strong>
+          </div>
+          <div class="cloud-telemetry-item">
+            <span class="label">Auth Mode:</span>
+            <strong class="val" id="cloud-auth-mode">Anonymous / UID</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Global Conservation Leaderboard Modal -->
+  <div class="modal-backdrop" id="leaderboard-modal">
+    <div class="modal-dialog modal-dialog-large">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-inner-scroll">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h2 class="modal-title" style="margin: 0;">🏆 Global Conservation Leaderboard</h2>
+          <button id="btn-refresh-leaderboard" class="hud-btn" style="font-size: 11px; padding: 4px 10px;">🔄 Refresh</button>
+        </div>
+        <p class="modal-subtitle" style="margin-bottom: 16px;">Top Reef Guardians worldwide preserving coral biodiversity in Firebase Firestore.</p>
+        
+        <div class="leaderboard-container">
+          <div class="leaderboard-header-row">
+            <span class="lb-col rank">RANK</span>
+            <span class="lb-col name">GUARDIAN</span>
+            <span class="lb-col bio">BIODIVERSITY</span>
+            <span class="lb-col days">DAYS SURVIVED</span>
+            <span class="lb-col species">SPECIES</span>
+            <span class="lb-col coral">CORAL COVER</span>
+          </div>
+          <div class="leaderboard-list" id="leaderboard-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Firebase SDK and Service Integration -->
+  <script type="module" src="js/firebase.js"></script>
+
+  <!-- Scripts in dependency order -->
+  <script src="js/data/speciesData.js"></script>
+  <script src="js/data/eventsData.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/canvas.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>
